@@ -1,0 +1,6 @@
+{
+  "name": "LIVEON CONNECT — Event AV, LED Wall & Sound Rentals",
+  "description": "Complete audio-visual rental solutions in Kerala including LED walls, live streaming, sound systems, stage lighting, displays, and event production gear.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
