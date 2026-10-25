@@ -169,24 +169,23 @@ export const CataloguePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
-      {/* Catalogue Header Banner with Colorful Stage Glow */}
-      <section className="relative bg-slate-950 text-white py-12 border-b border-slate-800 overflow-hidden">
+    <div className="min-h-screen bg-[#060814] text-slate-100 pb-24">
+      {/* Catalogue Header Banner with Intellio Grid & Aurora Glow */}
+      <section className="relative intellio-grid-bg text-white py-12 sm:py-16 border-b border-white/[0.08] overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              'radial-gradient(circle at 15% 30%, rgba(236, 72, 153, 0.25) 0%, transparent 45%), radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.25) 0%, transparent 45%), radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.22) 0%, transparent 50%)',
+              'radial-gradient(circle at 15% 30%, rgba(124, 58, 237, 0.22) 0%, transparent 45%), radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.2) 0%, transparent 45%)',
           }}
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold tracking-widest text-cyan-300 uppercase">
-                <span className="w-2 h-2 rounded-full bg-gradient-to-r from-rose-500 to-cyan-400 animate-pulse" />
-                <span>LIVEON CONNECT · Complete Equipment Directory</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold mt-3">
+              <p className="text-xs font-semibold tracking-wider text-indigo-300 font-mono-tabular">
+                LIVEON CONNECT · Complete Equipment Directory
+              </p>
+              <h1 className="text-3xl sm:text-4xl font-bold mt-2">
                 AV Rental <span className="led-text-gradient">Equipment Catalogue</span>
               </h1>
               <p className="text-sm sm:text-base text-slate-300 mt-2 max-w-2xl">
@@ -195,13 +194,13 @@ export const CataloguePage: React.FC = () => {
             </div>
 
             {/* Event Date & Duration Context Input */}
-            <div className="bg-slate-900/90 backdrop-blur-md border border-white/15 rounded-xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 shadow-lg">
+            <div className="intellio-card rounded-2xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 shrink-0">
               <div>
                 <label
                   htmlFor="catalogue-event-date"
-                  className="block text-[11px] font-semibold text-cyan-300 mb-1 flex items-center gap-1"
+                  className="block text-[11px] font-semibold text-indigo-300 mb-1 flex items-center gap-1.5"
                 >
-                  <Calendar className="w-3.5 h-3.5 text-pink-400" />
+                  <Calendar className="w-3.5 h-3.5 text-fuchsia-400" />
                   <span>Event Date (for Quote)</span>
                 </label>
                 <input
@@ -209,14 +208,14 @@ export const CataloguePage: React.FC = () => {
                   type="date"
                   value={eventDetails.eventDate}
                   onChange={(e) => updateEventDetails({ eventDate: e.target.value })}
-                  className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="px-3 py-1.5 rounded-xl bg-[#060814] border border-white/15 text-xs text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="catalogue-rental-days"
-                  className="block text-[11px] font-semibold text-cyan-300 mb-1"
+                  className="block text-[11px] font-semibold text-indigo-300 mb-1"
                 >
                   Rental Days
                 </label>
@@ -229,7 +228,7 @@ export const CataloguePage: React.FC = () => {
                   onChange={(e) =>
                     updateEventDetails({ rentalDays: Math.max(1, Number(e.target.value) || 1) })
                   }
-                  className="w-20 px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white font-mono-tabular focus:outline-none focus:ring-2 focus:ring-pink-500"
+                  className="w-20 px-3 py-1.5 rounded-xl bg-[#060814] border border-white/15 text-xs text-white font-mono-tabular focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
             </div>
@@ -239,41 +238,41 @@ export const CataloguePage: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8" id="categories">
         {/* Reference Pricing Notice Banner */}
-        <div className="mb-6 p-4 rounded-xl bg-white border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="mb-6 p-4 rounded-2xl intellio-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <Info className="w-5 h-5 text-blue-700 shrink-0 mt-0.5" />
-            <p className="text-xs text-slate-600 leading-relaxed">
-              <strong className="text-slate-900">Reference Rate Notice:</strong> Displayed prices are indicative reference rates (INR) and are editable using the <em>Edit Rate</em> control on any card. Final availability, transportation, setup, and confirmed LIVEON CONNECT rates are provided upon quote review.
+            <Info className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+            <p className="text-xs text-slate-300 leading-relaxed">
+              <strong className="text-white">Reference Rate Notice:</strong> Displayed prices are indicative reference rates (INR) and are editable using the <em>Edit Rate</em> control on any card. Final availability, transportation, setup, and confirmed LIVEON CONNECT rates are provided upon quote review.
             </p>
           </div>
           <button
             type="button"
             onClick={resetProductsToDefault}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-xs font-medium text-slate-600 flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
+            className="px-3.5 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 text-xs font-semibold text-slate-200 flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-3.5 h-3.5 text-indigo-400" />
             <span>Reset Reference Rates</span>
           </button>
         </div>
 
         {/* Search + Sort Controls */}
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-2xs space-y-4">
+        <div className="intellio-card p-4 sm:p-5 rounded-2xl space-y-4">
           <div className="flex flex-col md:flex-row gap-3">
             {/* Search Input */}
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-indigo-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search across 52 products by name, model (e.g. QSC 12.2, JBL VRX, RCF 9007-AS, P2 LED, SQ7)..."
-                className="w-full pl-10 pr-9 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full pl-10 pr-9 py-2.5 text-sm bg-[#060814] text-white placeholder:text-slate-500 border border-white/15 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white cursor-pointer"
                   aria-label="Clear search query"
                 >
                   <X className="w-4 h-4" />
@@ -287,7 +286,7 @@ export const CataloguePage: React.FC = () => {
                 value={selectedEventTag}
                 onChange={(e) => setSelectedEventTag(e.target.value)}
                 aria-label="Filter by Event Type"
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-3.5 py-2.5 text-sm bg-[#060814] border border-white/15 rounded-xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="all">All Event Types</option>
                 <option value="corporate">Corporate Conferences</option>
@@ -299,12 +298,12 @@ export const CataloguePage: React.FC = () => {
 
             {/* Sort Selector */}
             <div className="sm:w-52 flex items-center gap-2">
-              <SlidersHorizontal className="w-4 h-4 text-slate-500 shrink-0 hidden sm:block" />
+              <SlidersHorizontal className="w-4 h-4 text-indigo-400 shrink-0 hidden sm:block" />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
                 aria-label="Sort products"
-                className="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-300 rounded-lg text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                className="w-full px-3.5 py-2.5 text-sm bg-[#060814] border border-white/15 rounded-xl text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="default">Sort: Category Default</option>
                 <option value="name-asc">Name: A to Z</option>
@@ -320,10 +319,10 @@ export const CataloguePage: React.FC = () => {
             <button
               type="button"
               onClick={() => setSelectedCategory('All')}
-              className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 selectedCategory === 'All'
-                  ? 'bg-gradient-to-r from-rose-600 via-purple-600 to-blue-600 text-white shadow-md shadow-purple-500/20'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  ? 'intellio-btn-primary text-white'
+                  : 'bg-white/[0.05] border border-white/10 text-slate-300 hover:text-white hover:bg-white/[0.1]'
               }`}
             >
               All Equipment ({categoryCounts.All})
@@ -336,20 +335,13 @@ export const CataloguePage: React.FC = () => {
                   key={category}
                   type="button"
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                     isSelected
-                      ? `${theme.buttonIdle} text-white shadow-md`
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? `${theme.buttonIdle} text-white`
+                      : 'bg-white/[0.05] border border-white/10 text-slate-300 hover:text-white hover:bg-white/[0.1]'
                   }`}
                 >
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      isSelected ? 'bg-white' : theme.topBar
-                    }`}
-                  />
-                  <span>
-                    {category} ({categoryCounts[category] || 0})
-                  </span>
+                  {category} ({categoryCounts[category] || 0})
                 </button>
               );
             })}
@@ -359,7 +351,7 @@ export const CataloguePage: React.FC = () => {
         {/* Active Filter Bar & Result Count */}
         <div className="mt-5 mb-6 flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm font-semibold text-slate-800 font-mono-tabular">
+            <span className="text-sm font-semibold text-slate-200 font-mono-tabular">
               Showing {filteredProducts.length} of {products.length} products
             </span>
 
@@ -367,7 +359,7 @@ export const CataloguePage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedCategory('All')}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-medium cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/15 text-indigo-300 border border-indigo-400/30 text-xs font-medium cursor-pointer"
               >
                 <span>Category: {selectedCategory}</span>
                 <X className="w-3.5 h-3.5" />
@@ -378,7 +370,7 @@ export const CataloguePage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSelectedEventTag('all')}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-medium cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/15 text-indigo-300 border border-indigo-400/30 text-xs font-medium cursor-pointer"
               >
                 <span>Event: {EVENT_TAG_LABELS[selectedEventTag] || selectedEventTag}</span>
                 <X className="w-3.5 h-3.5" />
@@ -389,7 +381,7 @@ export const CataloguePage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-medium cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/15 text-indigo-300 border border-indigo-400/30 text-xs font-medium cursor-pointer"
               >
                 <span>Search: &ldquo;{searchQuery.trim()}&rdquo;</span>
                 <X className="w-3.5 h-3.5" />
@@ -401,7 +393,7 @@ export const CataloguePage: React.FC = () => {
             <button
               type="button"
               onClick={handleClearAllFilters}
-              className="text-xs font-semibold text-rose-600 hover:text-rose-700 cursor-pointer"
+              className="text-xs font-semibold text-rose-400 hover:text-rose-300 cursor-pointer"
             >
               Clear All Filters
             </button>
@@ -410,23 +402,23 @@ export const CataloguePage: React.FC = () => {
 
         {/* Product Grid or Empty State */}
         {filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center max-w-lg mx-auto my-8">
-            <h2 className="text-lg font-bold text-slate-900">
+          <div className="intellio-card rounded-2xl p-12 text-center max-w-lg mx-auto my-8">
+            <h2 className="text-lg font-bold text-white">
               No matching equipment found
             </h2>
-            <p className="text-sm text-slate-600 mt-2">
+            <p className="text-sm text-slate-400 mt-2">
               We couldn&apos;t find any products matching your current search or filter selection. Try clearing your filters or searching for another keyword.
             </p>
             <button
               type="button"
               onClick={handleClearAllFilters}
-              className="mt-5 px-5 py-2.5 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold cursor-pointer"
+              className="mt-5 px-5 py-2.5 rounded-xl intellio-btn-primary text-white text-xs font-semibold cursor-pointer"
             >
               Reset Search &amp; Filters
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -440,13 +432,13 @@ export const CataloguePage: React.FC = () => {
 
       {/* Floating Bottom Quote Summary Bar when items are in Cart */}
       {totalItemCount > 0 && (
-        <div className="fixed bottom-4 inset-x-4 max-w-4xl mx-auto z-30 bg-slate-950 text-white rounded-xl border border-slate-700 shadow-2xl p-3.5 sm:px-6 flex items-center justify-between gap-4">
+        <div className="fixed bottom-4 inset-x-4 max-w-4xl mx-auto z-30 bg-[#0B0E1E]/95 backdrop-blur-xl text-white rounded-2xl border border-indigo-500/40 shadow-[0_20px_60px_-10px_rgba(99,102,241,0.45)] p-3.5 sm:px-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-700 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl intellio-btn-primary flex items-center justify-center shrink-0">
               <ShoppingBag className="w-5 h-5 text-white" />
             </div>
             <div>
-              <div className="text-xs font-semibold text-slate-300">
+              <div className="text-xs font-semibold text-indigo-300">
                 {totalItemCount} item(s) in Quote · {eventDetails.rentalDays} day(s)
               </div>
               <div className="text-sm sm:text-base font-bold font-mono-tabular text-white">
@@ -464,13 +456,13 @@ export const CataloguePage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsQuoteDrawerOpen(true)}
-              className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white cursor-pointer whitespace-nowrap"
+              className="px-3.5 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.15] border border-white/10 text-xs font-semibold text-white cursor-pointer whitespace-nowrap"
             >
               Quick View
             </button>
             <Link
               to="/quote"
-              className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-xs font-semibold text-white flex items-center gap-1.5 whitespace-nowrap"
+              className="px-4 py-2 rounded-xl intellio-btn-primary text-xs font-semibold text-white flex items-center gap-1.5 whitespace-nowrap"
             >
               <span>Review &amp; Send Quote</span>
               <ArrowRight className="w-4 h-4" />
@@ -482,42 +474,42 @@ export const CataloguePage: React.FC = () => {
       {/* Edit Indicative Rate Modal */}
       {editingProduct && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white rounded-2xl border border-slate-200 max-w-md w-full p-6 shadow-xl">
+          <div className="intellio-card rounded-2xl border border-white/15 max-w-md w-full p-6 shadow-2xl">
             <div className="flex items-start justify-between gap-3 mb-4">
               <div>
-                <span className="text-xs font-semibold text-blue-700">
+                <span className="text-xs font-semibold text-indigo-400">
                   Customize Catalogue Rate
                 </span>
-                <h3 className="text-lg font-bold text-slate-900">
+                <h3 className="text-lg font-bold text-white">
                   {editingProduct.name}
                 </h3>
                 {editingProduct.packageLabel && (
-                  <p className="text-xs text-slate-500">{editingProduct.packageLabel}</p>
+                  <p className="text-xs text-slate-400">{editingProduct.packageLabel}</p>
                 )}
               </div>
               <button
                 type="button"
                 onClick={() => setEditingProduct(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 cursor-pointer"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <form onSubmit={handleSaveRate} className="space-y-4">
-              <div className="flex items-center gap-2.5 p-3 rounded-lg bg-slate-50 border border-slate-200">
+              <div className="flex items-center gap-2.5 p-3 rounded-xl bg-[#060814] border border-white/10">
                 <input
                   id="edit-quote-only"
                   type="checkbox"
                   checked={editQuoteOnly}
                   onChange={(e) => setEditQuoteOnly(e.target.checked)}
-                  className="w-4 h-4 text-blue-700 rounded"
+                  className="w-4 h-4 text-indigo-600 rounded"
                 />
-                <label htmlFor="edit-quote-only" className="text-xs font-semibold text-slate-800">
+                <label htmlFor="edit-quote-only" className="text-xs font-semibold text-slate-200">
                   Mark rate as &ldquo;Request a Quote&rdquo; (hide numeric rate)
                 </label>
               </div>
@@ -525,7 +517,7 @@ export const CataloguePage: React.FC = () => {
               {!editQuoteOnly && (
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">
                       Minimum Rate (₹ {editingProduct.pricingUnitLabel})
                     </label>
                     <input
@@ -533,12 +525,12 @@ export const CataloguePage: React.FC = () => {
                       min="0"
                       value={editMinPrice}
                       onChange={(e) => setEditMinPrice(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg font-mono-tabular"
+                      className="w-full px-3 py-2 text-sm bg-[#060814] text-white border border-white/15 rounded-xl font-mono-tabular"
                       required
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-300 mb-1">
                       Maximum Rate (₹ {editingProduct.pricingUnitLabel})
                     </label>
                     <input
@@ -546,7 +538,7 @@ export const CataloguePage: React.FC = () => {
                       min="0"
                       value={editMaxPrice}
                       onChange={(e) => setEditMaxPrice(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg font-mono-tabular"
+                      className="w-full px-3 py-2 text-sm bg-[#060814] text-white border border-white/15 rounded-xl font-mono-tabular"
                       required
                     />
                   </div>
@@ -557,13 +549,13 @@ export const CataloguePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setEditingProduct(null)}
-                  className="px-4 py-2 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  className="px-4 py-2 rounded-xl border border-white/15 text-xs font-semibold text-slate-300 hover:bg-white/[0.06] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-xs font-semibold text-white cursor-pointer"
+                  className="px-4 py-2 rounded-xl intellio-btn-primary text-xs font-semibold text-white cursor-pointer"
                 >
                   Save Reference Rate
                 </button>

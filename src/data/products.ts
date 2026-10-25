@@ -65,7 +65,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Projectors',
     description:
       'Standard throw · Meeting & seminar rooms. Ideal for indoor presentations, conferences, and training sessions.',
-    imagePath: '/assets/aistudio/proj-3200_3d23b101.webp',
+    imagePath: '/img/proj-3200.webp',
     minPrice: 1000,
     maxPrice: 1500,
     pricingUnit: 'day',
@@ -83,7 +83,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Projectors',
     description:
       'Large image from a short distance. Ideal for compact stages, breakout halls, and rear-projection setups.',
-    imagePath: '/assets/aistudio/proj-st_0ff1151c.webp',
+    imagePath: '/img/proj-st.webp',
     minPrice: 3000,
     maxPrice: 3500,
     pricingUnit: 'day',
@@ -104,7 +104,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       'Portable · Wireless active speaker with dual wireless handheld microphones for small gatherings and announcements.',
-    imagePath: '/assets/aistudio/spk-500-mics_cc595662.webp',
+    imagePath: '/img/spk-500-mics.webp',
     minPrice: 1500,
     maxPrice: 2000,
     pricingUnit: 'day',
@@ -122,7 +122,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       'Portable · Wireless 1000W active PA cabinet supporting wireless audio streaming and speech reinforcement.',
-    imagePath: '/assets/aistudio/spk-1000_4357a281.webp',
+    imagePath: '/img/spk-1000.webp',
     minPrice: 2000,
     maxPrice: 2500,
     pricingUnit: 'day',
@@ -141,7 +141,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       'Pair with mixer, mics & stands. dB Technologies 900W active two-way speaker package for vocal clarity and music.',
-    imagePath: '/assets/aistudio/spk-db900_7fbdef20.webp',
+    imagePath: '/img/spk-db900.webp',
     minPrice: 3000,
     maxPrice: 4000,
     pricingUnit: 'day',
@@ -160,7 +160,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       'Pair with mixer, mics & stands. QSC K12.2 2000W active loudspeaker package for conferences and private functions.',
-    imagePath: '/assets/aistudio/spk-qsc2000_cc8437f9.webp',
+    imagePath: '/img/spk-qsc2000.webp',
     minPrice: 4000,
     maxPrice: 5000,
     pricingUnit: 'day',
@@ -180,7 +180,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '4 speakers with mixer & mics. Expanded 4000W QSC K12.2 four-speaker setup providing even venue coverage.',
-    imagePath: '/assets/aistudio/pk-qsc4000_68829a40.webp',
+    imagePath: '/img/pk-qsc4000.webp',
     minPrice: 6000,
     maxPrice: 8000,
     pricingUnit: 'day',
@@ -199,7 +199,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '2 tops + 2 subwoofers. Full-range QSC K12.2 speaker package paired with dual subwoofers, mixer, and wireless mics.',
-    imagePath: '/assets/aistudio/pk-qsc22_22c8c9b4.webp',
+    imagePath: '/img/pk-qsc22.webp',
     minPrice: 6000,
     maxPrice: 8000,
     pricingUnit: 'day',
@@ -218,7 +218,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '2 tops + 2 subwoofers. Sleek portable RCF EVOX column array PA system with Soundcraft console and wireless mics.',
-    imagePath: '/assets/aistudio/pk-rcfevox_b22a297c.webp',
+    imagePath: '/img/pk-rcfevox.webp',
     minPrice: 7000,
     maxPrice: 10000,
     pricingUnit: 'day',
@@ -237,7 +237,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '4 tops + 2 subwoofers. Constant-curvature JBL VRX line array package for medium auditoriums, town halls, and live bands.',
-    imagePath: '/assets/aistudio/pk-jblvrx42_0d799d2e.webp',
+    imagePath: '/img/pk-jblvrx42.webp',
     minPrice: 10000,
     maxPrice: 13000,
     pricingUnit: 'day',
@@ -257,7 +257,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '4 tops + 2 subwoofers. High-power RCF 12-inch line array tops with RCF SUB 9007-AS subwoofers for punchy live sound.',
-    imagePath: '/assets/aistudio/la-rcf42_186d1958.webp',
+    imagePath: '/img/la-rcf42.webp',
     minPrice: 15000,
     maxPrice: 20000,
     pricingUnit: 'day',
@@ -276,7 +276,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '8 tops + 4 subwoofers. Full-scale JBL VRX concert line array and quad-subwoofer stack for large venues and outdoor shows.',
-    imagePath: '/assets/aistudio/la-jbl84_9a647c30.webp',
+    imagePath: '/img/la-jbl84.webp',
     minPrice: 20000,
     maxPrice: 25000,
     pricingUnit: 'day',
@@ -296,7 +296,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Sound Systems',
     description:
       '8 tops + 4 subwoofers. Flagship concert-scale RCF 12-inch line array and quad 9007-AS subwoofer touring rig.',
-    imagePath: '/assets/aistudio/la-rcf84_5486aaaa.webp',
+    imagePath: '/img/la-rcf84.webp',
     minPrice: 30000,
     maxPrice: 35000,
     pricingUnit: 'day',
@@ -317,7 +317,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Mixers & Mics',
     description:
       'Analog sound console. Professional 24-channel live sound mixing console with GB30 mic preamps and 6 aux sends.',
-    imagePath: '/assets/aistudio/mix-lx7_c55f87ae.webp',
+    imagePath: '/img/mix-lx7.webp',
     minPrice: 2000,
     maxPrice: 3000,
     pricingUnit: 'day',
@@ -335,7 +335,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Mixers & Mics',
     description:
       'Complete drum microphone set with kick, snare, tom, and overhead condensers plus rim clamps and stands.',
-    imagePath: '/assets/aistudio/mic-drum_d769e9a2.webp',
+    imagePath: '/img/mic-drum.webp',
     minPrice: 3000,
     maxPrice: 4000,
     pricingUnit: 'day',
@@ -353,7 +353,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Mixers & Mics',
     description:
       'Digital mixing console. 48-channel / 36-bus 96kHz flagship digital console featuring 33 motorized faders.',
-    imagePath: '/assets/aistudio/mix-sq7_573949d3.webp',
+    imagePath: '/img/mix-sq7.webp',
     minPrice: 5000,
     maxPrice: 8000,
     pricingUnit: 'day',
@@ -374,7 +374,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'Wash lighting. High-output RGBW LED Par fixture for stage colour washes, architectural uplighting, and backdrop illumination.',
-    imagePath: '/assets/aistudio/l-par_e23b9640.webp',
+    imagePath: '/img/l-par.webp',
     minPrice: 300,
     maxPrice: 400,
     pricingUnit: 'day',
@@ -392,7 +392,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'Compact spot · Price per light. Ideal for highlighting podiums, floral centrepieces, product pedestals, and signage.',
-    imagePath: '/assets/aistudio/l-spot_fa6ca34d.webp',
+    imagePath: '/img/l-spot.webp',
     minPrice: 300,
     maxPrice: 300,
     pricingUnit: 'day',
@@ -410,7 +410,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'LED bar · Stage & façade wash. Linear multi-LED bar for seamless wall grazing, stage edge framing, and chase effects.',
-    imagePath: '/assets/aistudio/l-batten_96ef76ac.webp',
+    imagePath: '/img/l-batten.webp',
     minPrice: 1000,
     maxPrice: 1500,
     pricingUnit: 'day',
@@ -428,7 +428,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'Audience blinder. 4-cell high-intensity COB LED blinder fixture delivering warm bursts and crowd illumination.',
-    imagePath: '/assets/aistudio/l-blinder_d6d4efb8.webp',
+    imagePath: '/img/l-blinder.webp',
     minPrice: 2000,
     maxPrice: 2000,
     pricingUnit: 'day',
@@ -446,7 +446,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'Ellipsoidal spot. Precision profile fixture with framing shutters for crisp keynote speaker key-lighting and gobo projection.',
-    imagePath: '/assets/aistudio/l-profile_acd6d4e7.webp',
+    imagePath: '/img/l-profile.webp',
     minPrice: 2000,
     maxPrice: 2000,
     pricingUnit: 'day',
@@ -464,7 +464,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'Operator-controlled spot. Long-throw LED 200W follow spot with tripod stand for tracking speakers, performers, and VIP entries.',
-    imagePath: '/assets/aistudio/l-follow_3641a6d6.webp',
+    imagePath: '/img/l-follow.webp',
     minPrice: 4000,
     maxPrice: 6000,
     pricingUnit: 'day',
@@ -555,7 +555,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'Lighting',
     description:
       'Multi-colour beam laser. Circular cone and aerial tunnel laser projection system for grand entries and concert stages.',
-    imagePath: '/assets/aistudio/l-laser_b77d6f58.webp',
+    imagePath: '/img/l-laser.webp',
     minPrice: 10000,
     maxPrice: 10000,
     pricingUnit: 'day',

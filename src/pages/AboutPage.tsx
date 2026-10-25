@@ -66,18 +66,25 @@ export const AboutPage: React.FC = () => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#060814] text-slate-100">
       {/* Hero Banner */}
-      <section className="bg-slate-950 text-white py-14 sm:py-20 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold tracking-widest text-sky-400 uppercase">
+      <section className="relative intellio-grid-bg text-white py-14 sm:py-20 border-b border-white/[0.08] overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(circle at 20% 35%, rgba(99, 102, 241, 0.22) 0%, transparent 45%), radial-gradient(circle at 80% 30%, rgba(217, 70, 239, 0.18) 0%, transparent 45%)',
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="text-xs font-semibold tracking-wider text-indigo-300 font-mono-tabular">
             About {siteConfig.businessName}
           </p>
           <h1
             className="text-3xl sm:text-5xl font-bold mt-2 max-w-3xl"
             style={{ textWrap: 'balance' }}
           >
-            Your AV Partner for Memorable Events
+            Your AV Partner for <span className="led-text-gradient">Memorable Events</span>
           </h1>
           <p className="text-base sm:text-lg text-slate-300 mt-4 max-w-2xl leading-relaxed">
             {siteConfig.businessName} ({siteConfig.tagline}) provides audio-visual rental solutions from Manimala, Kottayam, Kerala.
@@ -86,46 +93,48 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* Business Introduction & Capabilities */}
-      <section className="py-16 sm:py-20 border-b border-slate-200">
+      <section className="py-16 sm:py-20 border-b border-white/[0.08]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-6 space-y-5">
-              <div className="inline-block bg-slate-50 border border-slate-200 p-3 rounded-xl">
+              <div className="inline-block bg-white p-3 rounded-xl shadow-md">
                 <img
                   src={siteConfig.logoPath}
                   alt={siteConfig.businessName}
                   className="h-14 w-auto object-contain"
                 />
               </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white">
                 Comprehensive Event Audio-Visual Rentals
               </h2>
-              <p className="text-base text-slate-600 leading-relaxed">
+              <p className="text-base text-slate-300 leading-relaxed">
                 LIVEON CONNECT provides audio-visual rental solutions for events, including LED walls, live streaming, sound systems, stage lighting, and supporting equipment. We help customers explore suitable equipment combinations based on their event requirements, venue, audience, and budget.
               </p>
-              <p className="text-sm text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-400 leading-relaxed">
                 Whether you are organizing a corporate conference, a product launch, a wedding reception, or a live concert, our catalogue brings together modular LED walls, digital audio consoles, line-array speaker systems, intelligent stage lighting, multi-camera video switchers, and backup generator power under one roof.
               </p>
             </div>
 
             <div className="lg:col-span-6">
-              <div className="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950 shadow-lg">
-                <EquipmentImage
-                  src="/img/office.webp"
-                  alt="LIVEON CONNECT Stage and Audio-Visual Warehouse Inventory"
-                  className="w-full aspect-[4/3] object-cover"
-                />
+              <div className="p-2 rounded-3xl bg-white/[0.04] border border-white/15 shadow-2xl">
+                <div className="rounded-2xl overflow-hidden bg-slate-950">
+                  <EquipmentImage
+                    src="/img/office.webp"
+                    alt="LIVEON CONNECT Stage and Audio-Visual Warehouse Inventory"
+                    className="w-full aspect-[4/3] object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
 
           {/* Service Categories & Event Types Grid */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200">
-              <h3 className="text-lg font-bold text-slate-900">
+            <div className="p-6 sm:p-8 rounded-2xl intellio-card">
+              <h3 className="text-lg font-bold text-white">
                 Equipment Categories We Offer
               </h3>
-              <p className="text-xs text-slate-500 mt-1 mb-4">
+              <p className="text-xs text-slate-400 mt-1 mb-4">
                 52 rental configurations across 9 specialized AV categories:
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -133,34 +142,34 @@ export const AboutPage: React.FC = () => {
                   <Link
                     key={category}
                     to={`/catalogue?category=${encodeURIComponent(category)}`}
-                    className="px-3.5 py-2.5 rounded-lg bg-white border border-slate-200 hover:border-blue-600 text-xs font-semibold text-slate-800 hover:text-blue-700 flex items-center justify-between transition-colors"
+                    className="px-3.5 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-indigo-400/60 text-xs font-semibold text-slate-200 hover:text-white flex items-center justify-between transition-colors"
                   >
                     <span>{category}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-indigo-400" />
                   </Link>
                 ))}
               </div>
             </div>
 
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-              <h3 className="text-lg font-bold text-slate-900">
+            <div className="p-6 sm:p-8 rounded-2xl intellio-card space-y-4">
+              <h3 className="text-lg font-bold text-white">
                 Event Types Served
               </h3>
-              <ul className="space-y-3 text-sm text-slate-600">
+              <ul className="space-y-3 text-sm text-slate-300">
                 <li>
-                  <strong className="text-slate-900">Corporate Conferences &amp; Summits:</strong>{' '}
+                  <strong className="text-white">Corporate Conferences &amp; Summits:</strong>{' '}
                   P2 fine-pitch LED screens, confidence displays, digital mixing desks, and wireless presentation cue systems.
                 </li>
                 <li>
-                  <strong className="text-slate-900">Brand Launches &amp; Town Halls:</strong>{' '}
+                  <strong className="text-white">Brand Launches &amp; Town Halls:</strong>{' '}
                   Widescreen stage LED walls, multi-cam live video switchers for streaming, profile spots, and PA systems.
                 </li>
                 <li>
-                  <strong className="text-slate-900">Weddings &amp; Receptions:</strong>{' '}
+                  <strong className="text-white">Weddings &amp; Receptions:</strong>{' '}
                   Ambient LED par washes, moving beam fixtures, stage LED backdrops, cold spark effects, and full-range sound.
                 </li>
                 <li>
-                  <strong className="text-slate-900">Concerts &amp; Exhibitions:</strong>{' '}
+                  <strong className="text-white">Concerts &amp; Exhibitions:</strong>{' '}
                   JBL VRX and RCF 9007-AS high-output sound rigs, Avolites DMX consoles, lasers, and CPCB IV+ diesel genset power.
                 </li>
               </ul>
@@ -170,16 +179,16 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* FAQ Accordion Section */}
-      <section className="py-16 sm:py-20 bg-slate-50 border-b border-slate-200" id="faq">
+      <section className="py-16 sm:py-20 intellio-subgrid-bg border-b border-white/[0.08]" id="faq">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <p className="text-xs font-bold tracking-widest text-blue-700 uppercase">
+            <p className="text-xs font-semibold tracking-wider text-indigo-300 font-mono-tabular">
               Frequently Asked Questions
             </p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mt-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mt-2">
               Rental Pricing, Billing &amp; Logistics FAQ
             </h2>
-            <p className="text-sm text-slate-600 mt-2">
+            <p className="text-sm text-slate-400 mt-2">
               Clear answers on how daily rates, P2 LED wall square-foot pricing, Genset 5-hour billing, and WhatsApp quote requests work.
             </p>
           </div>
@@ -190,30 +199,30 @@ export const AboutPage: React.FC = () => {
               return (
                 <div
                   key={item.question}
-                  className="bg-white rounded-xl border border-slate-200 overflow-hidden"
+                  className="intellio-card rounded-2xl overflow-hidden"
                 >
                   <button
                     type="button"
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors cursor-pointer"
+                    className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-white/[0.03] transition-colors cursor-pointer"
                     aria-expanded={isOpen}
                   >
                     <div>
-                      <span className="text-[11px] font-semibold text-blue-700">
+                      <span className="text-[11px] font-semibold text-indigo-300 font-mono-tabular">
                         {item.category}
                       </span>
-                      <h3 className="text-sm sm:text-base font-bold text-slate-900 mt-0.5">
+                      <h3 className="text-sm sm:text-base font-bold text-white mt-0.5">
                         {item.question}
                       </h3>
                     </div>
                     <ChevronDown
                       className={`w-5 h-5 text-slate-400 shrink-0 transition-transform duration-150 ${
-                        isOpen ? 'rotate-180 text-blue-700' : ''
+                        isOpen ? 'rotate-180 text-indigo-400' : ''
                       }`}
                     />
                   </button>
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                    <div className="px-5 pb-5 pt-2 text-sm text-slate-300 leading-relaxed border-t border-white/10">
                       {item.answer}
                     </div>
                   )}
@@ -225,7 +234,7 @@ export const AboutPage: React.FC = () => {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-16 bg-slate-900 text-white">
+      <section className="py-16 intellio-grid-bg text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-5">
           <h2 className="text-2xl sm:text-3xl font-bold">
             Need Help Selecting the Right AV Package?
@@ -238,23 +247,23 @@ export const AboutPage: React.FC = () => {
               href={getWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto px-6 py-3 rounded-lg bg-blue-700 hover:bg-blue-600 text-white text-sm font-semibold flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl intellio-btn-primary text-white text-sm font-semibold flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
               <span>WhatsApp {siteConfig.whatsappDisplay}</span>
             </a>
             <Link
               to="/catalogue"
-              className="w-full sm:w-auto px-6 py-3 rounded-lg bg-white hover:bg-slate-100 text-slate-900 text-sm font-semibold flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-white text-sm font-semibold flex items-center justify-center gap-2"
             >
               <span>Explore Equipment Catalogue</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-indigo-400" />
             </Link>
             <a
               href={`tel:${siteConfig.phoneDial}`}
-              className="w-full sm:w-auto px-6 py-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 text-sm font-semibold flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/15 text-sm font-semibold flex items-center justify-center gap-2"
             >
-              <Phone className="w-4 h-4 text-sky-400" />
+              <Phone className="w-4 h-4 text-cyan-400" />
               <span>Call {siteConfig.phone}</span>
             </a>
           </div>

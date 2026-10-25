@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Check, SlidersHorizontal } from 'lucide-react';
+import { ArrowRight, Check, SlidersHorizontal } from 'lucide-react';
 import { Product, ProductCategory, formatProductPriceRange } from '../data/products';
 import { useQuote } from '../context/QuoteContext';
 import { EquipmentImage } from './EquipmentImage';
@@ -23,103 +23,94 @@ interface CategoryColorTheme {
 
 export const CATEGORY_COLOR_THEMES: Record<ProductCategory, CategoryColorTheme> = {
   'Sound Systems': {
-    topBar: 'bg-gradient-to-r from-blue-600 via-indigo-600 to-cyan-500',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#E0E7FF)]',
-    subGroupText: 'text-blue-700',
-    priceText: 'text-indigo-950',
-    buttonIdle:
-      'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-indigo-700 to-blue-800 text-white',
-    badgeBg: 'bg-gradient-to-r from-blue-600 to-indigo-700',
-    hoverBorder: 'hover:border-blue-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   Lighting: {
-    topBar: 'bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#FFEDD5)]',
-    subGroupText: 'text-orange-600',
-    priceText: 'text-rose-950',
-    buttonIdle:
-      'bg-gradient-to-r from-orange-500 to-rose-600 hover:from-orange-600 hover:to-rose-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-rose-600 to-orange-700 text-white',
-    badgeBg: 'bg-gradient-to-r from-amber-500 to-rose-600',
-    hoverBorder: 'hover:border-orange-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   'LED Walls': {
-    topBar: 'bg-gradient-to-r from-rose-600 via-fuchsia-600 to-cyan-500',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#FAE8FF)]',
-    subGroupText: 'text-fuchsia-700',
-    priceText: 'text-purple-950',
-    buttonIdle:
-      'bg-gradient-to-r from-rose-600 via-fuchsia-600 to-purple-600 hover:from-rose-700 hover:to-purple-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-purple-700 to-fuchsia-700 text-white',
-    badgeBg: 'bg-gradient-to-r from-rose-600 via-fuchsia-600 to-blue-600',
-    hoverBorder: 'hover:border-fuchsia-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   'TVs & Displays': {
-    topBar: 'bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#E0F2FE)]',
-    subGroupText: 'text-sky-700',
-    priceText: 'text-sky-950',
-    buttonIdle:
-      'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-blue-700 to-cyan-700 text-white',
-    badgeBg: 'bg-gradient-to-r from-cyan-500 to-blue-600',
-    hoverBorder: 'hover:border-cyan-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   Projectors: {
-    topBar: 'bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#EDE9FE)]',
-    subGroupText: 'text-violet-700',
-    priceText: 'text-violet-950',
-    buttonIdle:
-      'bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-purple-700 to-violet-800 text-white',
-    badgeBg: 'bg-gradient-to-r from-violet-600 to-purple-600',
-    hoverBorder: 'hover:border-violet-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   'Mixers & Mics': {
-    topBar: 'bg-gradient-to-r from-rose-600 via-pink-600 to-fuchsia-600',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#FFE4E6)]',
-    subGroupText: 'text-rose-600',
-    priceText: 'text-rose-950',
-    buttonIdle:
-      'bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-700 hover:to-pink-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-pink-700 to-rose-800 text-white',
-    badgeBg: 'bg-gradient-to-r from-rose-600 to-pink-600',
-    hoverBorder: 'hover:border-rose-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   'AV Accessories': {
-    topBar: 'bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-600',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#D1FAE5)]',
-    subGroupText: 'text-teal-700',
-    priceText: 'text-emerald-950',
-    buttonIdle:
-      'bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-teal-700 to-emerald-800 text-white',
-    badgeBg: 'bg-gradient-to-r from-emerald-500 to-teal-600',
-    hoverBorder: 'hover:border-teal-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   'Special Effects': {
-    topBar: 'bg-gradient-to-r from-fuchsia-600 via-pink-500 to-amber-500',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#FCE7F3)]',
-    subGroupText: 'text-pink-600',
-    priceText: 'text-fuchsia-950',
-    buttonIdle:
-      'bg-gradient-to-r from-fuchsia-600 via-pink-600 to-orange-500 hover:from-fuchsia-700 hover:to-orange-600 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-pink-700 to-fuchsia-800 text-white',
-    badgeBg: 'bg-gradient-to-r from-fuchsia-600 to-orange-500',
-    hoverBorder: 'hover:border-pink-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
   Genset: {
-    topBar: 'bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500',
-    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_40%,#ffffff,#FEF3C7)]',
-    subGroupText: 'text-amber-700',
-    priceText: 'text-amber-950',
-    buttonIdle:
-      'bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-xs',
-    buttonAdded: 'bg-gradient-to-r from-orange-700 to-amber-800 text-white',
-    badgeBg: 'bg-gradient-to-r from-amber-500 to-orange-600',
-    hoverBorder: 'hover:border-amber-400',
+    topBar: 'bg-[#6854fc]',
+    studioBg: 'bg-[radial-gradient(80%_80%_at_50%_45%,#ffffff,#E2E6FF)]',
+    subGroupText: 'text-[#8c7bff]',
+    priceText: 'text-white',
+    buttonIdle: 'intellio-outline-btn',
+    buttonAdded: 'intellio-solid-btn',
+    badgeBg: 'text-[#9d8fff]',
+    hoverBorder: 'hover:border-[#7d6bff]',
   },
 };
 
@@ -172,15 +163,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
 
   return (
     <article
-      className={`group bg-white rounded-2xl border border-slate-200/90 overflow-hidden flex flex-col transition-all duration-200 ${theme.hoverBorder} hover:-translate-y-0.5 hover:shadow-[0_18px_40px_-20px_rgba(124,58,237,0.3)]`}
+      className={`group intellio-card intellio-card-hover rounded-[26px] overflow-hidden flex flex-col p-3.5 sm:p-4 ${theme.hoverBorder}`}
     >
-      {/* Category Top Color Accent Strip */}
-      <div className={`h-1.5 w-full ${theme.topBar}`} />
-
-      {/* Product Visual */}
+      {/* Product Visual Stage */}
       <div
-        className={`relative aspect-[4/3] w-full overflow-hidden ${
-          product.isPhoto ? 'bg-slate-900 p-0' : `${theme.studioBg} p-4 grid place-items-center`
+        className={`relative aspect-[4/3] w-full rounded-[18px] overflow-hidden border border-[#6854fc]/35 ${
+          product.isPhoto ? 'bg-[#090420] p-0' : `${theme.studioBg} p-4 grid place-items-center`
         }`}
       >
         <EquipmentImage
@@ -194,20 +182,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
           }
         />
 
-        {product.badge && (
-          <span
-            className={`absolute top-3 left-3 z-10 px-2.5 py-1 rounded-md ${theme.badgeBg} text-white font-mono-tabular text-[10px] font-bold tracking-wider uppercase shadow-sm`}
-          >
-            {product.badge}
-          </span>
-        )}
-
         {onEditRate && (
           <button
             type="button"
             onClick={() => onEditRate(product)}
             title="Edit indicative reference rate"
-            className="absolute top-3 right-3 z-10 px-2.5 py-1.5 rounded-lg bg-slate-900/80 text-slate-100 hover:text-white hover:bg-slate-900 text-xs font-medium flex items-center gap-1.5 backdrop-blur-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            className="absolute top-2.5 right-2.5 z-10 px-2.5 py-1 rounded-full bg-[#060216]/90 border border-[#6854fc]/50 text-white hover:bg-[#6854fc] text-xs font-medium flex items-center gap-1.5 backdrop-blur-md transition-colors whitespace-nowrap shrink-0 cursor-pointer"
           >
             <SlidersHorizontal className="w-3.5 h-3.5" />
             <span>Edit Rate</span>
@@ -215,32 +195,41 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
         )}
       </div>
 
-      {/* Card Body */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between gap-3">
+      {/* Card Body (Matching Intellio Card Layout from frame_09 & frame_15) */}
+      <div className="pt-4 flex-1 flex flex-col justify-between gap-3">
         <div>
-          <div
-            className={`flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase ${theme.subGroupText} font-mono-tabular`}
-          >
-            <span>{product.subGroup || product.category}</span>
+          {/* Unboxed Metadata Line */}
+          <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-semibold tracking-wider font-mono-tabular">
+            <span className={theme.subGroupText}>{product.subGroup || product.category}</span>
+            {product.badge && (
+              <>
+                <span className="text-slate-500" aria-hidden="true">
+                  ·
+                </span>
+                <span className={theme.badgeBg}>{product.badge}</span>
+              </>
+            )}
           </div>
 
-          <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug mt-1">
+          <h3 className="font-display text-lg sm:text-xl font-bold text-white leading-snug mt-1">
             {product.name}
           </h3>
 
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
-            {product.packageLabel || product.description}
-          </p>
+          {/* Double-checkmark style spec line inspired by frame_15 */}
+          <div className="mt-2 flex items-start gap-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <Check className="w-4 h-4 text-[#6854fc] shrink-0 mt-0.5 stroke-[2.5]" />
+            <span>{product.packageLabel || product.description}</span>
+          </div>
 
           {/* Special input for P2 LED Wall square-foot calculation */}
           {product.pricingUnit === 'sq_ft' && (
-            <div className="mt-3.5 pt-3 border-t border-fuchsia-100">
-              <div className="text-xs font-bold text-fuchsia-800 mb-2">
+            <div className="mt-3.5 pt-3 border-t border-[#6854fc]/25">
+              <div className="text-xs font-semibold text-[#8c7bff] mb-2">
                 Custom Wall Size Calculator (ft)
               </div>
               <div className="grid grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-[11px] text-slate-500 mb-1">
+                  <label className="block text-[11px] text-slate-300 mb-1">
                     Width (ft)
                   </label>
                   <input
@@ -250,12 +239,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
                     step="1"
                     value={widthFt}
                     onChange={(e) => setWidthFt(e.target.value)}
-                    className="w-full px-2.5 py-1.5 text-sm border border-fuchsia-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-600 font-mono-tabular"
+                    className="w-full px-2.5 py-1.5 text-sm bg-[#060216] text-white border border-[#6854fc]/45 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6854fc] font-mono-tabular"
                     placeholder="Width"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] text-slate-500 mb-1">
+                  <label className="block text-[11px] text-slate-300 mb-1">
                     Height (ft)
                   </label>
                   <input
@@ -265,14 +254,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
                     step="1"
                     value={heightFt}
                     onChange={(e) => setHeightFt(e.target.value)}
-                    className="w-full px-2.5 py-1.5 text-sm border border-fuchsia-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-600 font-mono-tabular"
+                    className="w-full px-2.5 py-1.5 text-sm bg-[#060216] text-white border border-[#6854fc]/45 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#6854fc] font-mono-tabular"
                     placeholder="Height"
                   />
                 </div>
               </div>
               {hasValidArea && calculatedSqFt !== null ? (
-                <div className="mt-2 text-xs text-slate-600 font-mono-tabular">
-                  Indicative Area: <strong className="text-fuchsia-900">{calculatedSqFt} sq ft</strong>
+                <div className="mt-2 text-xs text-slate-300 font-mono-tabular">
+                  Indicative Area: <strong className="text-[#8c7bff]">{calculatedSqFt} sq ft</strong>
                   {!product.requestQuoteOnly && (
                     <span>
                       {' '}
@@ -282,7 +271,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
                   )}
                 </div>
               ) : (
-                <div className="mt-2 text-xs text-rose-600">
+                <div className="mt-2 text-xs text-rose-400">
                   Enter valid positive width and height in feet to calculate area.
                 </div>
               )}
@@ -291,34 +280,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
 
           {/* Special input for Genset 5-hour billing blocks */}
           {product.pricingUnit === '5_hours' && (
-            <div className="mt-3.5 pt-3 border-t border-amber-100">
+            <div className="mt-3.5 pt-3 border-t border-[#6854fc]/25">
               <div className="flex items-center justify-between gap-2">
-                <label className="text-xs font-bold text-amber-800">
+                <label className="text-xs font-semibold text-[#8c7bff]">
                   5-Hour Operational Blocks
                 </label>
                 <div className="flex items-center gap-1.5">
                   <button
                     type="button"
                     onClick={() => setFiveHourBlocks((b) => Math.max(1, b - 1))}
-                    className="w-7 h-7 rounded-md border border-amber-300 text-amber-900 hover:bg-amber-50 flex items-center justify-center text-sm font-semibold cursor-pointer"
+                    className="w-7 h-7 rounded-full border border-[#6854fc]/45 bg-[#060216] text-white hover:bg-[#6854fc]/20 flex items-center justify-center text-sm font-semibold cursor-pointer"
                     aria-label="Decrease 5-hour blocks"
                   >
                     −
                   </button>
-                  <span className="w-8 text-center text-xs font-mono-tabular font-semibold text-slate-900">
+                  <span className="w-8 text-center text-xs font-mono-tabular font-semibold text-white">
                     {fiveHourBlocks}
                   </span>
                   <button
                     type="button"
                     onClick={() => setFiveHourBlocks((b) => Math.min(20, b + 1))}
-                    className="w-7 h-7 rounded-md border border-amber-300 text-amber-900 hover:bg-amber-50 flex items-center justify-center text-sm font-semibold cursor-pointer"
+                    className="w-7 h-7 rounded-full border border-[#6854fc]/45 bg-[#060216] text-white hover:bg-[#6854fc]/20 flex items-center justify-center text-sm font-semibold cursor-pointer"
                     aria-label="Increase 5-hour blocks"
                   >
                     +
                   </button>
                 </div>
               </div>
-              <p className="text-[11px] text-slate-500 mt-1 font-mono-tabular">
+              <p className="text-[11px] text-slate-300 mt-1 font-mono-tabular">
                 {fiveHourBlocks} block(s) = {fiveHourBlocks * 5} hours · Indicative:{' '}
                 {product.requestQuoteOnly
                   ? 'Request a Quote'
@@ -328,18 +317,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
           )}
         </div>
 
-        {/* Footer Price + Vibrant Add to Quote Button */}
-        <div className="pt-3.5 mt-auto border-t border-dashed border-slate-200 flex flex-wrap items-center justify-between gap-2.5">
-          <div className={`text-[15px] font-bold ${theme.priceText} font-mono-tabular whitespace-nowrap`}>
+        {/* Footer Price + Intellio Outlined Pill Action Button (matching frame_15) */}
+        <div className="pt-3.5 mt-auto border-t border-white/10 flex flex-wrap items-center justify-between gap-2.5">
+          <div className="font-display text-lg sm:text-xl font-bold text-white font-mono-tabular whitespace-nowrap">
             {formatProductPriceRange(product)}
           </div>
 
           {existingItem ? (
-            <div className={`flex items-center gap-1 ${theme.buttonAdded} px-2 py-1 rounded-full shadow-xs`}>
+            <div className="flex items-center gap-1 intellio-solid-btn px-2.5 py-1.5">
               <button
                 type="button"
                 onClick={() => updateItemQuantity(product.id, existingItem.quantity - 1)}
-                className="w-6 h-6 rounded-full hover:bg-black/20 font-bold text-xs flex items-center justify-center cursor-pointer"
+                className="w-6 h-6 rounded-full hover:bg-black/25 font-bold text-xs flex items-center justify-center cursor-pointer"
                 aria-label={`Decrease quantity of ${product.name}`}
               >
                 −
@@ -351,7 +340,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
               <button
                 type="button"
                 onClick={() => updateItemQuantity(product.id, existingItem.quantity + 1)}
-                className="w-6 h-6 rounded-full hover:bg-black/20 font-bold text-xs flex items-center justify-center cursor-pointer"
+                className="w-6 h-6 rounded-full hover:bg-black/25 font-bold text-xs flex items-center justify-center cursor-pointer"
                 aria-label={`Increase quantity of ${product.name}`}
               >
                 +
@@ -362,10 +351,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onEditRate })
               type="button"
               onClick={handleAdd}
               disabled={product.pricingUnit === 'sq_ft' && !hasValidArea}
-              className={`px-3.5 py-2 rounded-full ${theme.buttonIdle} disabled:bg-slate-200 disabled:text-slate-400 text-xs font-bold flex items-center gap-1 transition-all whitespace-nowrap shrink-0 cursor-pointer`}
+              className="px-4 py-2 intellio-outline-btn disabled:opacity-40 text-xs sm:text-sm flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Add</span>
+              <span>Add Quote</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
         </div>

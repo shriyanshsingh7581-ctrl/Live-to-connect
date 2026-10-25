@@ -38,7 +38,7 @@ export default function App() {
     <QuoteProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <div className="min-h-screen flex flex-col bg-white text-slate-900">
+        <div className="min-h-screen flex flex-col bg-[#060814] text-slate-100 selection:bg-indigo-500 selection:text-white">
           <Header />
           <main className="flex-1">
             <Routes>

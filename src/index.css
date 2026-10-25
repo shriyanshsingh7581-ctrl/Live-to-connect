@@ -2,7 +2,7 @@
 
 @layer base {
   :root {
-    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    --font-display: 'Rajdhani', system-ui, -apple-system, sans-serif;
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   }
@@ -10,10 +10,13 @@
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
+    background-color: #060216;
+    color: #ffffff;
   }
 
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-display);
+    letter-spacing: 0.01em;
   }
 
   .font-mono-tabular {
@@ -22,28 +25,116 @@
   }
 }
 
-.led-spectrum-bar {
-  background: linear-gradient(
-    90deg,
-    #e11d48 0%,
-    #db2777 20%,
-    #9333ea 40%,
-    #4f46e5 60%,
-    #2563eb 80%,
-    #06b6d4 100%
-  );
+/* 1. Intellio Hero Diagonal Purple Light Beams (Exact match to frame_01) */
+.intellio-hero-beams {
+  background-color: #060216;
+  background-image:
+    repeating-linear-gradient(
+      128deg,
+      rgba(128, 110, 255, 0.22) 0px,
+      rgba(104, 84, 252, 0.06) 42px,
+      transparent 88px,
+      rgba(104, 84, 252, 0.16) 135px
+    ),
+    radial-gradient(ellipse 95% 65% at 50% 0%, rgba(104, 84, 252, 0.72) 0%, rgba(67, 46, 198, 0.38) 42%, rgba(6, 2, 22, 0.98) 80%);
 }
 
-.led-text-gradient {
-  background: linear-gradient(90deg, #fb7185 0%, #e879f9 35%, #60a5fa 70%, #22d3ee 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* 2. Intellio Section Pill Badge (Exact match to frame_01, frame_08, frame_12, frame_13, frame_17) */
+.intellio-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  border: 1px solid #6854fc;
+  background: linear-gradient(180deg, rgba(104, 84, 252, 0.3) 0%, rgba(17, 8, 52, 0.88) 100%);
+  box-shadow: 0 0 24px rgba(104, 84, 252, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
 }
 
+/* 3. Intellio Outlined Dark Glow Pill Button ("Request a Demo ->", "Choose Plans ->") */
+.intellio-outline-btn {
+  border-radius: 9999px;
+  border: 1px solid #5d47f6;
+  background: radial-gradient(circle at 50% 50%, rgba(104, 84, 252, 0.18) 0%, rgba(8, 3, 26, 0.96) 75%);
+  box-shadow: 0 0 28px -6px rgba(104, 84, 252, 0.45), inset 0 0 18px rgba(104, 84, 252, 0.22);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+
+.intellio-outline-btn:hover {
+  transform: translateY(-2px);
+  border-color: #8372ff;
+  box-shadow: 0 0 36px -4px rgba(104, 84, 252, 0.7), inset 0 0 24px rgba(104, 84, 252, 0.35);
+}
+
+/* 4. Intellio Solid Periwinkle Pill Button ("Try for Free", "Explore More", "Request Demo ->") */
+.intellio-solid-btn,
+.intellio-btn-primary {
+  border-radius: 9999px;
+  background: #6854fc;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 32px -8px rgba(104, 84, 252, 0.7);
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.intellio-solid-btn:hover,
+.intellio-btn-primary:hover {
+  background: #7866ff;
+  transform: translateY(-2px);
+  box-shadow: 0 16px 38px -6px rgba(104, 84, 252, 0.85);
+}
+
+/* 5. Intellio Signature Rounded Card with Diagonal Violet Glow (frame_03, frame_05, frame_09, frame_15, frame_18) */
+.intellio-card {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(104, 84, 252, 0.28) 0%, transparent 48%),
+    radial-gradient(circle at 88% 86%, rgba(104, 84, 252, 0.24) 0%, transparent 48%),
+    #08031d;
+  border: 1px solid rgba(104, 84, 252, 0.48);
+  box-shadow: 0 20px 50px -20px rgba(4, 1, 16, 0.95);
+}
+
+.intellio-card-hover {
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), border-color 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.intellio-card-hover:hover {
+  transform: translateY(-3px);
+  border-color: #7c6aff;
+  box-shadow: 0 24px 60px -18px rgba(104, 84, 252, 0.42);
+}
+
+.intellio-grid-bg {
+  background-color: #060216;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(104, 84, 252, 0.32) 0%, transparent 70%);
+}
+
+.intellio-subgrid-bg {
+  background-color: #070219;
+  background-image:
+    radial-gradient(circle at 50% 25%, rgba(104, 84, 252, 0.2) 0%, transparent 60%);
+}
+
+.led-text-gradient,
 .led-heading-gradient {
-  background: linear-gradient(90deg, #e11d48 0%, #9333ea 50%, #2563eb 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #6854fc;
+}
+
+/* 6. Intellio Footer Top Diagonal Violet Glow (frame_19) */
+.intellio-footer-glow {
+  background-color: #060216;
+  background-image:
+    radial-gradient(ellipse 90% 45% at 35% 0%, rgba(104, 84, 252, 0.65) 0%, rgba(64, 45, 180, 0.28) 45%, rgba(6, 2, 22, 0.98) 80%);
 }
