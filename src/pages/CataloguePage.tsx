@@ -16,7 +16,7 @@ import {
   ProductCategory,
 } from '../data/products';
 import { useQuote } from '../context/QuoteContext';
-import { ProductCard } from '../components/ProductCard';
+import { ProductCard, CATEGORY_COLOR_THEMES } from '../components/ProductCard';
 import { formatINR } from '../config/site';
 
 type SortOption = 'default' | 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc';
@@ -170,16 +170,24 @@ export const CataloguePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
-      {/* Catalogue Header Banner */}
-      <section className="bg-slate-950 text-white py-12 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Catalogue Header Banner with Colorful Stage Glow */}
+      <section className="relative bg-slate-950 text-white py-12 border-b border-slate-800 overflow-hidden">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(circle at 15% 30%, rgba(236, 72, 153, 0.25) 0%, transparent 45%), radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.25) 0%, transparent 45%), radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.22) 0%, transparent 50%)',
+          }}
+        />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <p className="text-xs font-bold tracking-widest text-sky-400 uppercase">
-                LIVEON CONNECT · Complete Equipment Directory
-              </p>
-              <h1 className="text-3xl sm:text-4xl font-bold mt-2">
-                AV Rental Equipment Catalogue
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold tracking-widest text-cyan-300 uppercase">
+                <span className="w-2 h-2 rounded-full bg-gradient-to-r from-rose-500 to-cyan-400 animate-pulse" />
+                <span>LIVEON CONNECT · Complete Equipment Directory</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold mt-3">
+                AV Rental <span className="led-text-gradient">Equipment Catalogue</span>
               </h1>
               <p className="text-sm sm:text-base text-slate-300 mt-2 max-w-2xl">
                 Explore {products.length} sound, lighting, LED wall, projection, display, mixer, special effects, and genset packages. Add items to your quote cart to generate an instant WhatsApp enquiry.
@@ -187,13 +195,13 @@ export const CataloguePage: React.FC = () => {
             </div>
 
             {/* Event Date & Duration Context Input */}
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+            <div className="bg-slate-900/90 backdrop-blur-md border border-white/15 rounded-xl p-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 shadow-lg">
               <div>
                 <label
                   htmlFor="catalogue-event-date"
-                  className="block text-[11px] font-semibold text-slate-400 mb-1 flex items-center gap-1"
+                  className="block text-[11px] font-semibold text-cyan-300 mb-1 flex items-center gap-1"
                 >
-                  <Calendar className="w-3.5 h-3.5 text-sky-400" />
+                  <Calendar className="w-3.5 h-3.5 text-pink-400" />
                   <span>Event Date (for Quote)</span>
                 </label>
                 <input
@@ -201,14 +209,14 @@ export const CataloguePage: React.FC = () => {
                   type="date"
                   value={eventDetails.eventDate}
                   onChange={(e) => updateEventDetails({ eventDate: e.target.value })}
-                  className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="catalogue-rental-days"
-                  className="block text-[11px] font-semibold text-slate-400 mb-1"
+                  className="block text-[11px] font-semibold text-cyan-300 mb-1"
                 >
                   Rental Days
                 </label>
@@ -221,7 +229,7 @@ export const CataloguePage: React.FC = () => {
                   onChange={(e) =>
                     updateEventDetails({ rentalDays: Math.max(1, Number(e.target.value) || 1) })
                   }
-                  className="w-20 px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white font-mono-tabular focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="w-20 px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-700 text-xs text-white font-mono-tabular focus:outline-none focus:ring-2 focus:ring-pink-500"
                 />
               </div>
             </div>
@@ -308,32 +316,43 @@ export const CataloguePage: React.FC = () => {
           </div>
 
           {/* Interactive Category Filter Buttons with Dynamic Counts */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-1">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1">
             <button
               type="button"
               onClick={() => setSelectedCategory('All')}
-              className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap shrink-0 cursor-pointer ${
                 selectedCategory === 'All'
-                  ? 'bg-blue-700 text-white'
+                  ? 'bg-gradient-to-r from-rose-600 via-purple-600 to-blue-600 text-white shadow-md shadow-purple-500/20'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               }`}
             >
               All Equipment ({categoryCounts.All})
             </button>
-            {PRODUCT_CATEGORIES.map((category) => (
-              <button
-                key={category}
-                type="button"
-                onClick={() => setSelectedCategory(category)}
-                className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                  selectedCategory === category
-                    ? 'bg-blue-700 text-white'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {category} ({categoryCounts[category] || 0})
-              </button>
-            ))}
+            {PRODUCT_CATEGORIES.map((category) => {
+              const theme = CATEGORY_COLOR_THEMES[category];
+              const isSelected = selectedCategory === category;
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${
+                    isSelected
+                      ? `${theme.buttonIdle} text-white shadow-md`
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isSelected ? 'bg-white' : theme.topBar
+                    }`}
+                  />
+                  <span>
+                    {category} ({categoryCounts[category] || 0})
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

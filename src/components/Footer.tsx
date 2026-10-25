@@ -8,12 +8,21 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+    <footer className="relative bg-slate-950 text-slate-300 border-t border-slate-800 overflow-hidden">
+      {/* Top LED Spectrum Bar */}
+      <div className="h-1.5 w-full led-spectrum-bar" />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          background:
+            'radial-gradient(circle at 10% 80%, rgba(236, 72, 153, 0.16) 0%, transparent 45%), radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.16) 0%, transparent 45%)',
+        }}
+      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
           {/* Column 1: Brand Identity */}
           <div className="lg:col-span-4 space-y-4">
-            <Link to="/" className="inline-block bg-white px-4 py-2.5 rounded-xl">
+            <Link to="/" className="inline-block bg-white px-4 py-2.5 rounded-xl shadow-md">
               <img
                 src={siteConfig.logoPath}
                 alt={siteConfig.businessName}
@@ -24,7 +33,7 @@ export const Footer: React.FC = () => {
               <div className="text-base font-bold text-white tracking-wide">
                 {siteConfig.businessName}
               </div>
-              <p className="text-xs font-semibold text-rose-400 tracking-wider mt-0.5">
+              <p className="text-xs font-bold led-text-gradient tracking-wider mt-0.5">
                 {siteConfig.tagline}
               </p>
             </div>
@@ -36,16 +45,16 @@ export const Footer: React.FC = () => {
                 href={siteConfig.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-medium text-slate-200 transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-gradient-to-r from-pink-600 via-rose-600 to-amber-500 hover:from-pink-500 hover:to-amber-400 text-xs font-bold text-white shadow-md shadow-pink-600/20 transition-all"
               >
-                <Instagram className="w-4 h-4 text-rose-500" />
+                <Instagram className="w-4 h-4 text-white" />
                 <span>Follow on Instagram</span>
               </a>
               <a
                 href={getWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-xs font-semibold text-white transition-colors"
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-xs font-bold text-white shadow-md shadow-emerald-600/20 transition-all"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>WhatsApp Us</span>

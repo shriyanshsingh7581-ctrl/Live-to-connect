@@ -21,3 +21,29 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+.led-spectrum-bar {
+  background: linear-gradient(
+    90deg,
+    #e11d48 0%,
+    #db2777 20%,
+    #9333ea 40%,
+    #4f46e5 60%,
+    #2563eb 80%,
+    #06b6d4 100%
+  );
+}
+
+.led-text-gradient {
+  background: linear-gradient(90deg, #fb7185 0%, #e879f9 35%, #60a5fa 70%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.led-heading-gradient {
+  background: linear-gradient(90deg, #e11d48 0%, #9333ea 50%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
