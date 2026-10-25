@@ -213,6 +213,29 @@ export const ContactPage: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Real Field Production Preview Card */}
+            <div className="intellio-card rounded-2xl p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="rounded-xl overflow-hidden aspect-[16/10] border border-[#6854fc]/35">
+                  <img
+                    src="/assets/aistudio/IMG-20261025-WA0021_07860ad8.jpg"
+                    alt="YoloLiv Multi-Cam Streaming & Audio Desk"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="rounded-xl overflow-hidden aspect-[16/10] border border-[#6854fc]/35">
+                  <img
+                    src="/assets/aistudio/IMG-20261025-WA0020_ecb653b2.jpg"
+                    alt="Official Ceremony LED Backdrop"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <p className="text-xs text-slate-300 px-1">
+                On-site LED wall installations, multi-camera live streaming, and concert sound systems across Kottayam &amp; Kerala.
+              </p>
+            </div>
           </div>
 
           {/* Right Column: Validated Enquiry Form with WhatsApp Fallback */}

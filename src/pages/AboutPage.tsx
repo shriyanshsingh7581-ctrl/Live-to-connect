@@ -115,16 +115,91 @@ export const AboutPage: React.FC = () => {
               </p>
             </div>
 
-            <div className="lg:col-span-6">
-              <div className="p-2 rounded-3xl bg-white/[0.04] border border-white/15 shadow-2xl">
-                <div className="rounded-2xl overflow-hidden bg-slate-950">
+            <div className="lg:col-span-6 space-y-4">
+              <div className="p-3 rounded-[28px] intellio-card shadow-2xl">
+                <div className="rounded-[20px] overflow-hidden bg-slate-950 border border-[#6854fc]/35">
                   <EquipmentImage
-                    src="/img/office.webp"
-                    alt="LIVEON CONNECT Stage and Audio-Visual Warehouse Inventory"
-                    className="w-full aspect-[4/3] object-cover"
+                    src="/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg"
+                    alt="LIVEON CONNECT FOH Control & Stage LED Wall"
+                    className="w-full aspect-[16/10] object-cover"
                   />
                 </div>
+                <p className="text-xs text-slate-300 px-2 pt-2.5">
+                  LIVEON CONNECT on-site OBS Studio live production desk, road-ready flight cases, and modular stage LED wall.
+                </p>
               </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-2.5 rounded-[22px] intellio-card">
+                  <div className="rounded-xl overflow-hidden aspect-[16/10]">
+                    <EquipmentImage
+                      src="/assets/aistudio/IMG-20261025-WA0068_830a56a3.jpg"
+                      alt="Wedding FOH NovaStar VX1, OBS Studio & Stage LED Wall"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-[11px] font-semibold text-slate-300 mt-2 px-1">
+                    Wedding FOH NovaStar VX1, OBS &amp; Stage LED Wall
+                  </p>
+                </div>
+                <div className="p-2.5 rounded-[22px] intellio-card">
+                  <div className="rounded-xl overflow-hidden aspect-[16/10]">
+                    <EquipmentImage
+                      src="/assets/aistudio/IMG-20261025-WA0065_f92ae4c4.jpg"
+                      alt="Outdoor LED Wall Mega Show & PA Sound Setup"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="text-[11px] font-semibold text-slate-300 mt-2 px-1">
+                    Outdoor LED Wall Mega Show &amp; PA Sound Rig
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional On-Site Production Strip */}
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="p-3.5 rounded-[24px] intellio-card space-y-2">
+              <div className="rounded-2xl overflow-hidden aspect-video border border-[#6854fc]/35">
+                <EquipmentImage
+                  src="/assets/aistudio/IMG-20261025-WA0069_b0d21777.jpg"
+                  alt="Traditional Kerala Wedding Procession on Stage LED Wall"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-xs font-semibold text-white px-1">
+                Traditional Wedding Procession Live LED Wall
+              </p>
+            </div>
+            <div className="p-3.5 rounded-[24px] intellio-card space-y-2">
+              <div className="rounded-2xl overflow-hidden aspect-video border border-[#6854fc]/35">
+                <EquipmentImage
+                  src="/assets/aistudio/IMG-20261025-WA0023_0e200ba8.jpg"
+                  alt="ATEM Multi-Cam Switcher & Dual Hollyland Multiview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-xs font-semibold text-white px-1">
+                ATEM Multi-Cam Switcher &amp; Dual Hollyland Multiview
+              </p>
+            </div>
+            <div className="p-3.5 rounded-[24px] intellio-card space-y-2">
+              <div className="rounded-2xl overflow-hidden aspect-video border border-[#6854fc]/35 bg-[#050112]">
+                <video
+                  src="/assets/aistudio/VID-20261025-WA0073_b2b97e51.mp4"
+                  poster="/assets/aistudio/IMG-20261025-WA0043_7db4c382.jpg"
+                  controls
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <p className="text-xs font-semibold text-white px-1">
+                Graduation Ceremony 2026 — Dual-Laptop OBS Broadcast
+              </p>
             </div>
           </div>
 
