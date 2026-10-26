@@ -15,14 +15,10 @@ import {
   Upload,
   Download,
   RefreshCw,
-  Cloud,
-  LogIn,
-  LogOut,
   Search,
   Star,
   ArrowUpRight,
   MessageCircle,
-  ShieldCheck,
   Percent,
   Lock,
   KeyRound,
@@ -50,13 +46,6 @@ type AdminTab = 'catalogue' | 'videos' | 'photos' | 'content' | 'enquiries';
 
 export const AdminPage: React.FC = () => {
   const {
-    currentUser,
-    isCloudAdmin,
-    isSyncingCloud,
-    lastCloudSyncStatus,
-    signInAdminWithGoogle,
-    signOutAdmin,
-    syncAllToCloud,
     siteSettings,
     updateSiteSettings,
     mediaItems,
@@ -142,8 +131,7 @@ export const AdminPage: React.FC = () => {
 
     const validUser =
       cleanUser === 'admin' ||
-      cleanUser === 'liveon' ||
-      cleanUser === 'shriyanshsingh7581@gmail.com';
+      cleanUser === 'liveon';
 
     const validPass =
       cleanPass === savedAdminPassword ||
@@ -171,9 +159,6 @@ export const AdminPage: React.FC = () => {
       localStorage.removeItem(ADMIN_SESSION_UNLOCKED_KEY);
     } catch {
       // ignore
-    }
-    if (currentUser) {
-      signOutAdmin();
     }
   };
 
@@ -416,12 +401,10 @@ export const AdminPage: React.FC = () => {
     }
   };
 
-  const isAuthorizedAdmin = isUnlocked || isCloudAdmin;
-
   // =========================================================================
-  // RENDER 1: MOBILE-FIRST ADMIN PASSWORD & GOOGLE LOGIN GATE
+  // RENDER 1: MOBILE-FIRST ADMIN PASSWORD LOGIN GATE
   // =========================================================================
-  if (!isAuthorizedAdmin) {
+  if (!isUnlocked) {
     return (
       <div className="min-h-screen bg-[#050112] intellio-hero-beams text-white flex flex-col justify-between p-4 sm:p-6">
         {/* Top Minimal Bar */}
@@ -461,7 +444,7 @@ export const AdminPage: React.FC = () => {
                 Admin Login
               </h1>
               <p className="text-xs sm:text-sm text-slate-300">
-                Enter your Admin Password or sign in with your verified Admin Google Account to manage the website.
+                Enter your Admin ID and Password to unlock the website control panel.
               </p>
             </div>
 
@@ -474,14 +457,14 @@ export const AdminPage: React.FC = () => {
             <form onSubmit={handlePasswordLogin} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-                  Admin ID / Email
+                  Admin ID
                 </label>
                 <input
                   type="text"
                   required
                   value={loginUsername}
                   onChange={(e) => setLoginUsername(e.target.value)}
-                  placeholder="admin or shriyanshsingh7581@gmail.com"
+                  placeholder="admin"
                   className="w-full px-4 py-3.5 rounded-2xl bg-[#060216] border border-[#6854fc]/50 text-base sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#6854fc]"
                 />
               </div>
@@ -496,7 +479,7 @@ export const AdminPage: React.FC = () => {
                     required
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="Enter password (e.g. Liveon@7581 or 7581)"
+                    placeholder="Enter password"
                     autoFocus
                     className="w-full pl-4 pr-12 py-3.5 rounded-2xl bg-[#060216] border border-[#6854fc]/50 text-base sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#6854fc]"
                   />
@@ -519,23 +502,6 @@ export const AdminPage: React.FC = () => {
                 <span>Unlock Admin Panel</span>
               </button>
             </form>
-
-            <div className="relative flex py-1 items-center">
-              <div className="flex-grow border-t border-white/10" />
-              <span className="flex-shrink mx-3 text-[11px] font-mono-tabular uppercase text-slate-400">
-                OR CLOUD ADMIN LOGIN
-              </span>
-              <div className="flex-grow border-t border-white/10" />
-            </div>
-
-            <button
-              type="button"
-              onClick={signInAdminWithGoogle}
-              className="w-full py-3 px-4 rounded-2xl bg-[#0b0426] hover:bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs sm:text-sm font-semibold text-white flex items-center justify-center gap-2 transition-colors cursor-pointer"
-            >
-              <LogIn className="w-4 h-4 text-[#a594ff]" />
-              <span>Sign In with Google (shriyanshsingh7581@gmail.com)</span>
-            </button>
           </div>
         </div>
 
@@ -577,7 +543,7 @@ export const AdminPage: React.FC = () => {
                 <span className="text-[#a594ff] text-xs sm:text-base">ADMIN</span>
               </div>
               <div className="text-[10px] font-mono-tabular text-emerald-400 truncate">
-                {isCloudAdmin ? '● Cloud Sync Active' : '● Admin Unlocked'}
+                ● Admin Unlocked
               </div>
             </div>
           </div>
@@ -661,32 +627,8 @@ export const AdminPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Cloud Auth & Backup Toolbar (2-column grid on mobile, row on desktop) */}
+            {/* Backup & Restore Toolbar */}
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
-              {currentUser ? (
-                <button
-                  type="button"
-                  disabled={isSyncingCloud}
-                  onClick={async () => {
-                    await syncAllToCloud();
-                    showToast('All website data synced to Firebase Cloud!');
-                  }}
-                  className="col-span-2 sm:col-span-1 px-4 py-2.5 rounded-xl bg-[#6854fc] hover:bg-[#7b6aff] text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
-                >
-                  <Cloud className="w-4 h-4" />
-                  <span>{isSyncingCloud ? 'Syncing...' : 'Sync All to Cloud'}</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={signInAdminWithGoogle}
-                  className="col-span-2 sm:col-span-1 px-4 py-2.5 intellio-solid-btn text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <Cloud className="w-4 h-4" />
-                  <span>Connect Google Cloud Sync</span>
-                </button>
-              )}
-
               <button
                 type="button"
                 onClick={handleDownloadBackup}
@@ -713,13 +655,6 @@ export const AdminPage: React.FC = () => {
               />
             </div>
           </div>
-
-          {lastCloudSyncStatus && (
-            <div className="text-xs text-emerald-300 font-mono-tabular flex items-center gap-2">
-              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>{lastCloudSyncStatus}</span>
-            </div>
-          )}
 
           {/* Desktop & Tablet Horizontal Tabs (Hidden on small phones because mobile uses sticky Bottom App Bar + quick pills) */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
