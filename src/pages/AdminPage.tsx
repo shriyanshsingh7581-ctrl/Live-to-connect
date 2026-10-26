@@ -24,6 +24,11 @@ import {
   MessageCircle,
   ShieldCheck,
   Percent,
+  Lock,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Copy,
 } from 'lucide-react';
 import { useQuote } from '../context/QuoteContext';
 import {
@@ -96,11 +101,102 @@ export const AdminPage: React.FC = () => {
   // Confirm Reset State
   const [confirmFactoryReset, setConfirmFactoryReset] = useState(false);
 
+  // Admin Password Authentication State
+  const ADMIN_PASS_STORAGE_KEY = 'liveon_admin_custom_password_v1';
+  const ADMIN_SESSION_UNLOCKED_KEY = 'liveon_admin_unlocked_v1';
+
+  const [savedAdminPassword, setSavedAdminPassword] = useState<string>(() => {
+    try {
+      return localStorage.getItem(ADMIN_PASS_STORAGE_KEY) || 'Liveon@7581';
+    } catch {
+      return 'Liveon@7581';
+    }
+  });
+
+  const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(ADMIN_SESSION_UNLOCKED_KEY) === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [loginUsername, setLoginUsername] = useState('admin');
+  const [loginPassword, setLoginPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [newPasswordInput, setNewPasswordInput] = useState('');
+  const [confirmPasswordInput, setConfirmPasswordInput] = useState('');
+
   const fileImportRef = useRef<HTMLInputElement | null>(null);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  const handlePasswordLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanUser = loginUsername.trim().toLowerCase();
+    const cleanPass = loginPassword.trim();
+
+    const validUser =
+      cleanUser === 'admin' ||
+      cleanUser === 'liveon' ||
+      cleanUser === 'shriyanshsingh7581@gmail.com';
+
+    const validPass =
+      cleanPass === savedAdminPassword ||
+      cleanPass === 'Liveon@7581' ||
+      cleanPass === '7581';
+
+    if (validUser && validPass) {
+      setIsUnlocked(true);
+      setLoginError(null);
+      setLoginPassword('');
+      try {
+        localStorage.setItem(ADMIN_SESSION_UNLOCKED_KEY, 'true');
+      } catch {
+        // ignore storage error
+      }
+      showToast('Welcome to LIVEON CONNECT Admin Panel!');
+    } else {
+      setLoginError('Invalid Admin ID or Password. Please try again.');
+    }
+  };
+
+  const handleLockAdmin = () => {
+    setIsUnlocked(false);
+    try {
+      localStorage.removeItem(ADMIN_SESSION_UNLOCKED_KEY);
+    } catch {
+      // ignore
+    }
+    if (currentUser) {
+      signOutAdmin();
+    }
+  };
+
+  const handleUpdateAdminPassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = newPasswordInput.trim();
+    if (trimmed.length < 4) {
+      showToast('Password must be at least 4 characters.');
+      return;
+    }
+    if (trimmed !== confirmPasswordInput.trim()) {
+      showToast('Passwords do not match.');
+      return;
+    }
+    setSavedAdminPassword(trimmed);
+    try {
+      localStorage.setItem(ADMIN_PASS_STORAGE_KEY, trimmed);
+    } catch {
+      // ignore
+    }
+    setNewPasswordInput('');
+    setConfirmPasswordInput('');
+    showToast('New Admin Password saved successfully!');
   };
 
   // Compress uploaded image file into a clean data URL (<250KB) so it works in localStorage & Firestore
@@ -320,76 +416,225 @@ export const AdminPage: React.FC = () => {
     }
   };
 
+  const isAuthorizedAdmin = isUnlocked || isCloudAdmin;
+
+  // =========================================================================
+  // RENDER 1: MOBILE-FIRST ADMIN PASSWORD & GOOGLE LOGIN GATE
+  // =========================================================================
+  if (!isAuthorizedAdmin) {
+    return (
+      <div className="min-h-screen bg-[#050112] intellio-hero-beams text-white flex flex-col justify-between p-4 sm:p-6">
+        {/* Top Minimal Bar */}
+        <div className="max-w-md w-full mx-auto flex items-center justify-between pt-2">
+          <div className="flex items-center gap-2.5">
+            <div className="bg-white px-2 py-1 rounded-lg">
+              <img
+                src={siteSettings.logoPath}
+                alt={siteSettings.businessName}
+                className="h-6 w-auto object-contain"
+              />
+            </div>
+            <span className="font-display text-base font-bold text-white">
+              {siteSettings.businessName}
+            </span>
+          </div>
+          <Link
+            to="/"
+            className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold text-white flex items-center gap-1"
+          >
+            <span>Website</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {/* Center Mobile Login Card */}
+        <div className="my-auto max-w-md w-full mx-auto">
+          <div className="intellio-card rounded-[28px] p-6 sm:p-8 space-y-6 border-2 border-[#6854fc]/60 shadow-[0_20px_60px_rgba(104,84,252,0.35)]">
+            <div className="text-center space-y-2">
+              <div className="w-14 h-14 rounded-2xl bg-[#6854fc]/20 border border-[#6854fc]/60 flex items-center justify-center mx-auto text-[#a594ff]">
+                <Lock className="w-7 h-7" />
+              </div>
+              <span className="inline-block px-3 py-0.5 rounded-full bg-[#6854fc]/20 border border-[#6854fc]/40 text-[11px] font-mono-tabular text-[#a594ff]">
+                PRIVATE ADMIN PORTAL
+              </span>
+              <h1 className="font-display text-2xl sm:text-3xl font-bold text-white">
+                Admin Login
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-300">
+                Enter your Admin Password or sign in with your verified Admin Google Account to manage the website.
+              </p>
+            </div>
+
+            {loginError && (
+              <div className="p-3.5 rounded-2xl bg-rose-500/15 border border-rose-500/40 text-xs text-rose-200 text-center font-medium">
+                {loginError}
+              </div>
+            )}
+
+            <form onSubmit={handlePasswordLogin} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  Admin ID / Email
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={loginUsername}
+                  onChange={(e) => setLoginUsername(e.target.value)}
+                  placeholder="admin or shriyanshsingh7581@gmail.com"
+                  className="w-full px-4 py-3.5 rounded-2xl bg-[#060216] border border-[#6854fc]/50 text-base sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#6854fc]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                  Admin Password / PIN
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={loginPassword}
+                    onChange={(e) => setLoginPassword(e.target.value)}
+                    placeholder="Enter password (e.g. Liveon@7581 or 7581)"
+                    autoFocus
+                    className="w-full pl-4 pr-12 py-3.5 rounded-2xl bg-[#060216] border border-[#6854fc]/50 text-base sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#6854fc]"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-white cursor-pointer"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 px-6 intellio-solid-btn text-base font-bold flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <KeyRound className="w-4 h-4" />
+                <span>Unlock Admin Panel</span>
+              </button>
+            </form>
+
+            <div className="relative flex py-1 items-center">
+              <div className="flex-grow border-t border-white/10" />
+              <span className="flex-shrink mx-3 text-[11px] font-mono-tabular uppercase text-slate-400">
+                OR CLOUD ADMIN LOGIN
+              </span>
+              <div className="flex-grow border-t border-white/10" />
+            </div>
+
+            <button
+              type="button"
+              onClick={signInAdminWithGoogle}
+              className="w-full py-3 px-4 rounded-2xl bg-[#0b0426] hover:bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs sm:text-sm font-semibold text-white flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <LogIn className="w-4 h-4 text-[#a594ff]" />
+              <span>Sign In with Google (shriyanshsingh7581@gmail.com)</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Bottom Note */}
+        <div className="text-center text-xs text-slate-400 pb-2">
+          Separate Admin Link: <span className="font-mono-tabular text-[#a594ff]">{adminSeparateUrl}</span>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================================================
+  // RENDER 2: MOBILE-FIRST UNLOCKED ADMIN DASHBOARD
+  // =========================================================================
   return (
-    <div className="min-h-screen bg-[#060216] text-white pb-24">
-      {/* Toast Notification */}
+    <div className="min-h-screen bg-[#060216] text-white pb-28 lg:pb-20">
+      {/* Toast Notification (Positioned above mobile bottom nav bar) */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3.5 rounded-full bg-[#6854fc] text-white font-display font-bold text-base shadow-[0_10px_35px_rgba(104,84,252,0.8)] flex items-center gap-2.5 border border-white/25">
-          <Check className="w-5 h-5" />
+        <div className="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md px-5 py-3 rounded-2xl bg-[#6854fc] text-white font-display font-bold text-sm sm:text-base shadow-[0_10px_35px_rgba(104,84,252,0.85)] flex items-center justify-center gap-2 border border-white/25 text-center">
+          <Check className="w-5 h-5 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Dedicated Standalone Admin Portal Topbar (Completely Separate from Public Website) */}
+      {/* Compact Mobile-First Standalone Admin Topbar */}
       <header className="sticky top-0 z-40 bg-[#0d0628]/95 backdrop-blur-xl border-b border-[#6854fc]/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-white px-2.5 py-1 rounded-lg shrink-0">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            <div className="bg-white px-2 py-1 rounded-lg shrink-0">
               <img
                 src={siteSettings.logoPath}
                 alt={siteSettings.businessName}
-                className="h-7 w-auto object-contain"
+                className="h-6 sm:h-7 w-auto object-contain"
               />
             </div>
-            <div>
-              <div className="font-display text-lg font-bold text-white leading-none">
-                {siteSettings.businessName} <span className="text-[#a594ff]">ADMIN PORTAL</span>
+            <div className="min-w-0">
+              <div className="font-display text-sm sm:text-lg font-bold text-white truncate">
+                {siteSettings.businessName}{' '}
+                <span className="text-[#a594ff] text-xs sm:text-base">ADMIN</span>
               </div>
-              <div className="text-[11px] font-mono-tabular text-emerald-400 mt-0.5">
-                Separate Private URL • Hidden from Public Website
+              <div className="text-[10px] font-mono-tabular text-emerald-400 truncate">
+                {isCloudAdmin ? '● Cloud Sync Active' : '● Admin Unlocked'}
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               type="button"
               onClick={handleCopyAdminUrl}
-              className="px-3.5 py-1.5 rounded-full bg-[#6854fc]/20 hover:bg-[#6854fc] border border-[#6854fc]/60 text-xs font-bold text-white transition-colors cursor-pointer"
+              className="p-2 sm:px-3 sm:py-1.5 rounded-full bg-[#6854fc]/20 hover:bg-[#6854fc] border border-[#6854fc]/60 text-xs font-bold text-white flex items-center gap-1.5 cursor-pointer"
+              title="Copy Separate Admin Link"
             >
-              Copy Admin Link (/admin)
+              <Copy className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Copy Admin Link</span>
             </button>
+
             <Link
               to="/"
-              className="px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold text-white flex items-center gap-1.5 transition-colors"
+              className="px-2.5 py-1.5 sm:px-3.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold text-white flex items-center gap-1"
             >
-              <span>Open Customer Website</span>
+              <span>Website</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
+
+            <button
+              type="button"
+              onClick={handleLockAdmin}
+              className="px-2.5 py-1.5 sm:px-3 rounded-full bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-xs font-bold text-rose-200 flex items-center gap-1 cursor-pointer"
+              title="Lock / Logout Admin Panel"
+            >
+              <Lock className="w-3.5 h-3.5" />
+              <span className="hidden xs:inline">Lock</span>
+            </button>
           </div>
         </div>
       </header>
 
       {/* Top Admin Control Header */}
-      <section className="relative intellio-hero-beams border-b border-[#6854fc]/35 pt-8 pb-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          {/* Separate Link Info Banner */}
-          <div className="rounded-2xl bg-[#0b0426]/90 border border-[#6854fc]/45 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <div className="text-xs font-mono-tabular uppercase tracking-wider text-emerald-400 font-bold">
-                ✓ Admin Link Removed from Public Website (Customer Header &amp; Footer Clean)
+      <section className="relative intellio-hero-beams border-b border-[#6854fc]/35 pt-4 sm:pt-7 pb-5 sm:pb-7">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 space-y-4">
+          {/* Separate Link & Quick Actions Card (Mobile Optimized) */}
+          <div className="rounded-2xl bg-[#0b0426]/90 border border-[#6854fc]/45 p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="space-y-0.5 min-w-0">
+              <div className="text-[11px] font-mono-tabular uppercase tracking-wider text-emerald-400 font-bold">
+                ✓ Separate Private Admin Link (Hidden from Customers)
               </div>
-              <div className="text-xs sm:text-sm text-slate-300">
-                Public Website Link: <span className="font-mono-tabular text-white">{publicWebsiteUrl}</span> &nbsp;|&nbsp; Separate Admin Link: <span className="font-mono-tabular text-[#a594ff] font-bold">{adminSeparateUrl}</span>
+              <div className="text-xs text-slate-300 truncate">
+                Admin URL: <span className="font-mono-tabular text-[#a594ff] font-bold">{adminSeparateUrl}</span>
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <div className="grid grid-cols-2 sm:flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={handleCopyAdminUrl}
-                className="px-4 py-2 rounded-xl bg-[#6854fc] hover:bg-[#7b6aff] text-white text-xs font-bold cursor-pointer"
+                className="px-3 py-2 rounded-xl bg-[#6854fc] hover:bg-[#7b6aff] text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                Copy Separate Admin Link
+                <Copy className="w-3.5 h-3.5" />
+                <span>Copy Link</span>
               </button>
               <a
                 href={`https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(
@@ -397,91 +642,67 @@ export const AdminPage: React.FC = () => {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5"
+                className="px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
-                <span>Save Link on My WhatsApp</span>
+                <span>Save on WhatsApp</span>
               </a>
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          {/* Title + Cloud Sync & Backup Strip */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs font-mono-tabular text-[#a594ff] mb-3">
-                <Settings className="w-3.5 h-3.5" />
-                <span>A-TO-Z MASTER ADMIN CONTROL PANEL</span>
-              </div>
-              <h1 className="font-display text-3xl sm:text-5xl font-bold text-white tracking-tight">
+              <h1 className="font-display text-2xl sm:text-4xl font-bold text-white tracking-tight">
                 Manage <span className="text-[#6854fc]">{siteSettings.businessName}</span>
               </h1>
-              <p className="text-sm sm:text-base text-slate-300 mt-1 max-w-2xl">
-                Control all {products.length} rental products, prices, live event videos, field photos, hero text, FAQs, contact details, and customer enquiries from one place.
+              <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
+                Tap any section below to edit {products.length} products, rates, videos, event photos, website text, or enquiries.
               </p>
             </div>
 
-            {/* Cloud Auth & Backup Toolbar */}
-            <div className="flex flex-wrap items-center gap-2.5">
+            {/* Cloud Auth & Backup Toolbar (2-column grid on mobile, row on desktop) */}
+            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
               {currentUser ? (
-                <div className="flex flex-wrap items-center gap-2.5 bg-[#0b0426] border border-[#6854fc]/50 rounded-2xl p-2.5">
-                  <div className="px-2">
-                    <div className="text-[11px] font-mono-tabular text-emerald-400 flex items-center gap-1">
-                      <ShieldCheck className="w-3.5 h-3.5" />
-                      <span>{isCloudAdmin ? 'Verified Cloud Admin' : 'Signed In'}</span>
-                    </div>
-                    <div className="text-xs font-semibold text-white truncate max-w-[180px]">
-                      {currentUser.email}
-                    </div>
-                  </div>
-                  {isCloudAdmin && (
-                    <button
-                      type="button"
-                      disabled={isSyncingCloud}
-                      onClick={async () => {
-                        await syncAllToCloud();
-                        showToast('All website data synced to Firebase Cloud!');
-                      }}
-                      className="px-4 py-2 rounded-xl bg-[#6854fc] hover:bg-[#7b6aff] text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-                    >
-                      <Cloud className="w-4 h-4" />
-                      <span>{isSyncingCloud ? 'Syncing...' : 'Sync All to Cloud'}</span>
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={signOutAdmin}
-                    className="p-2 rounded-xl bg-white/5 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 text-xs cursor-pointer"
-                    title="Sign Out"
-                  >
-                    <LogOut className="w-4 h-4" />
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  disabled={isSyncingCloud}
+                  onClick={async () => {
+                    await syncAllToCloud();
+                    showToast('All website data synced to Firebase Cloud!');
+                  }}
+                  className="col-span-2 sm:col-span-1 px-4 py-2.5 rounded-xl bg-[#6854fc] hover:bg-[#7b6aff] text-white text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  <Cloud className="w-4 h-4" />
+                  <span>{isSyncingCloud ? 'Syncing...' : 'Sync All to Cloud'}</span>
+                </button>
               ) : (
                 <button
                   type="button"
                   onClick={signInAdminWithGoogle}
-                  className="px-5 py-2.5 intellio-solid-btn text-sm flex items-center gap-2 cursor-pointer"
+                  className="col-span-2 sm:col-span-1 px-4 py-2.5 intellio-solid-btn text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <LogIn className="w-4 h-4" />
-                  <span>Admin Google Sign-In (Cloud Sync)</span>
+                  <Cloud className="w-4 h-4" />
+                  <span>Connect Google Cloud Sync</span>
                 </button>
               )}
 
               <button
                 type="button"
                 onClick={handleDownloadBackup}
-                className="px-4 py-2.5 rounded-full bg-[#0b0426] hover:bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs font-semibold text-white flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-2.5 rounded-xl bg-[#0b0426] hover:bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs font-semibold text-white flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <Download className="w-4 h-4 text-[#8c7bff]" />
-                <span>Export Backup</span>
+                <Download className="w-3.5 h-3.5 text-[#8c7bff]" />
+                <span>Backup JSON</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => fileImportRef.current?.click()}
-                className="px-4 py-2.5 rounded-full bg-[#0b0426] hover:bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs font-semibold text-white flex items-center gap-1.5 cursor-pointer"
+                className="px-3.5 py-2.5 rounded-xl bg-[#0b0426] hover:bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs font-semibold text-white flex items-center justify-center gap-1.5 cursor-pointer"
               >
-                <Upload className="w-4 h-4 text-[#8c7bff]" />
-                <span>Import Backup</span>
+                <Upload className="w-3.5 h-3.5 text-[#8c7bff]" />
+                <span>Restore JSON</span>
               </button>
               <input
                 ref={fileImportRef}
@@ -490,63 +711,55 @@ export const AdminPage: React.FC = () => {
                 onChange={handleImportBackupFile}
                 className="hidden"
               />
-
-              <Link
-                to="/"
-                className="px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/15 text-xs font-semibold text-white flex items-center gap-1.5"
-              >
-                <span>View Live Website</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
             </div>
           </div>
 
           {lastCloudSyncStatus && (
             <div className="text-xs text-emerald-300 font-mono-tabular flex items-center gap-2">
-              <Check className="w-4 h-4 text-emerald-400" />
+              <Check className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>{lastCloudSyncStatus}</span>
             </div>
           )}
 
-          {/* 5 Main Admin Navigation Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          {/* Desktop & Tablet Horizontal Tabs (Hidden on small phones because mobile uses sticky Bottom App Bar + quick pills) */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
             <button
               type="button"
               onClick={() => setActiveTab('catalogue')}
-              className={`px-5 py-3 rounded-2xl font-display font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2.5 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-1.5 whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'catalogue'
-                  ? 'bg-[#6854fc] text-white shadow-[0_0_25px_rgba(104,84,252,0.6)]'
+                  ? 'bg-[#6854fc] text-white shadow-[0_0_20px_rgba(104,84,252,0.6)]'
                   : 'bg-[#0b0426] text-slate-300 border border-[#6854fc]/35 hover:text-white'
               }`}
             >
               <Package className="w-4 h-4" />
-              <span>1. Products &amp; Prices ({products.length})</span>
+              <span>Products ({products.length})</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('videos')}
-              className={`px-5 py-3 rounded-2xl font-display font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2.5 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-1.5 whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'videos'
-                  ? 'bg-[#6854fc] text-white shadow-[0_0_25px_rgba(104,84,252,0.6)]'
+                  ? 'bg-[#6854fc] text-white shadow-[0_0_20px_rgba(104,84,252,0.6)]'
                   : 'bg-[#0b0426] text-slate-300 border border-[#6854fc]/35 hover:text-white'
               }`}
             >
               <Video className="w-4 h-4" />
-              <span>2. Live Videos ({heroVideos.length + productionVideos.length})</span>
+              <span>Videos ({heroVideos.length + productionVideos.length})</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('photos')}
-              className={`px-5 py-3 rounded-2xl font-display font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2.5 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-1.5 whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'photos'
-                  ? 'bg-[#6854fc] text-white shadow-[0_0_25px_rgba(104,84,252,0.6)]'
+                  ? 'bg-[#6854fc] text-white shadow-[0_0_20px_rgba(104,84,252,0.6)]'
                   : 'bg-[#0b0426] text-slate-300 border border-[#6854fc]/35 hover:text-white'
               }`}
             >
               <ImageIcon className="w-4 h-4" />
-              <span>3. Event Photos Gallery ({fieldPhotos.length})</span>
+              <span>Photos ({fieldPhotos.length})</span>
             </button>
 
             <button
@@ -555,34 +768,34 @@ export const AdminPage: React.FC = () => {
                 setSettingsForm(siteSettings);
                 setActiveTab('content');
               }}
-              className={`px-5 py-3 rounded-2xl font-display font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2.5 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-1.5 whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'content'
-                  ? 'bg-[#6854fc] text-white shadow-[0_0_25px_rgba(104,84,252,0.6)]'
+                  ? 'bg-[#6854fc] text-white shadow-[0_0_20px_rgba(104,84,252,0.6)]'
                   : 'bg-[#0b0426] text-slate-300 border border-[#6854fc]/35 hover:text-white'
               }`}
             >
               <FileText className="w-4 h-4" />
-              <span>4. Website Text, Hero, Contact &amp; FAQs</span>
+              <span>Site Text &amp; Password</span>
             </button>
 
             <button
               type="button"
               onClick={() => setActiveTab('enquiries')}
-              className={`px-5 py-3 rounded-2xl font-display font-bold text-base flex items-center gap-2 whitespace-nowrap transition-all cursor-pointer ${
+              className={`px-4 py-2.5 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center gap-1.5 whitespace-nowrap transition-all cursor-pointer ${
                 activeTab === 'enquiries'
-                  ? 'bg-[#6854fc] text-white shadow-[0_0_25px_rgba(104,84,252,0.6)]'
+                  ? 'bg-[#6854fc] text-white shadow-[0_0_20px_rgba(104,84,252,0.6)]'
                   : 'bg-[#0b0426] text-slate-300 border border-[#6854fc]/35 hover:text-white'
               }`}
             >
               <Inbox className="w-4 h-4" />
-              <span>5. Customer Enquiries ({enquiries.length})</span>
+              <span>Enquiries ({enquiries.length})</span>
             </button>
           </div>
         </div>
       </section>
 
       {/* Main Tab Content Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-5 sm:pt-8">
         {/* ===================================================================
             TAB 1: PRODUCTS & PRICES MANAGER (ALL 52+ ITEMS)
            =================================================================== */}
@@ -1084,11 +1297,75 @@ export const AdminPage: React.FC = () => {
             TAB 4: WEBSITE TEXT, HERO, CONTACT, EVENT CATEGORIES & FAQs
            =================================================================== */}
         {activeTab === 'content' && (
-          <div className="space-y-10">
+          <div className="space-y-8 sm:space-y-10">
+            {/* 0. Admin Password & Security Settings Card */}
+            <form
+              onSubmit={handleUpdateAdminPassword}
+              className="intellio-card rounded-[26px] p-5 sm:p-7 space-y-4 border-2 border-[#6854fc]/50"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-[#6854fc]/20 border border-[#6854fc]/50 flex items-center justify-center text-[#a594ff] shrink-0">
+                    <KeyRound className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
+                      Admin Login Password &amp; Security
+                    </h2>
+                    <p className="text-xs text-slate-300">
+                      Set a custom password for unlocking your private <span className="font-mono-tabular text-[#a594ff]">/admin</span> portal on mobile or desktop.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleLockAdmin}
+                  className="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-xs font-bold text-rose-200 flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Lock className="w-3.5 h-3.5" />
+                  <span>Lock Admin Panel Now</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    New Admin Password
+                  </label>
+                  <input
+                    type="password"
+                    value={newPasswordInput}
+                    onChange={(e) => setNewPasswordInput(e.target.value)}
+                    placeholder="Enter new password..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#060216] border border-[#6854fc]/45 text-sm text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPasswordInput}
+                    onChange={(e) => setConfirmPasswordInput(e.target.value)}
+                    placeholder="Re-enter new password..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-[#060216] border border-[#6854fc]/45 text-sm text-white"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-2.5 px-5 intellio-solid-btn text-sm font-bold flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <Check className="w-4 h-4" />
+                  <span>Update Password</span>
+                </button>
+              </div>
+            </form>
+
             {/* 1. Brand, Contact & Hero Text Form */}
             <form
               onSubmit={handleSaveSiteSettings}
-              className="intellio-card rounded-[28px] p-6 sm:p-8 space-y-6"
+              className="intellio-card rounded-[28px] p-5 sm:p-8 space-y-6"
             >
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
                 <div>
@@ -1673,19 +1950,19 @@ export const AdminPage: React.FC = () => {
       </div>
 
       {/* =====================================================================
-          MODAL 1: CREATE / EDIT PRODUCT MODAL
+          MODAL 1: CREATE / EDIT PRODUCT MODAL (MOBILE BOTTOM-SHEET READY)
          ===================================================================== */}
       {editingProduct && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-2xl rounded-[28px] bg-[#0b0426] border-2 border-[#6854fc]/60 p-6 sm:p-8 space-y-5 max-h-[92vh] overflow-y-auto shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h2 className="font-display text-2xl font-bold text-white">
-                {isCreatingProduct ? 'Add New Equipment Product' : `Edit Product: ${editingProduct.name}`}
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+          <div className="w-full max-w-2xl rounded-t-[28px] sm:rounded-[28px] bg-[#0b0426] border-t-2 sm:border-2 border-[#6854fc]/60 p-5 sm:p-8 space-y-5 max-h-[92vh] overflow-y-auto shadow-2xl">
+            <div className="sticky top-0 z-10 bg-[#0b0426] flex items-center justify-between border-b border-white/10 pb-3">
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-white truncate pr-2">
+                {isCreatingProduct ? 'Add New Equipment Product' : `Edit: ${editingProduct.name}`}
               </h2>
               <button
                 type="button"
                 onClick={() => setEditingProduct(null)}
-                className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 cursor-pointer"
+                className="p-2 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1911,13 +2188,13 @@ export const AdminPage: React.FC = () => {
       )}
 
       {/* =====================================================================
-          MODAL 2: CREATE / EDIT MEDIA (VIDEO OR FIELD PHOTO) MODAL
+          MODAL 2: CREATE / EDIT MEDIA MODAL (MOBILE BOTTOM-SHEET READY)
          ===================================================================== */}
       {editingMedia && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-xl rounded-[28px] bg-[#0b0426] border-2 border-[#6854fc]/60 p-6 sm:p-8 space-y-5 max-h-[92vh] overflow-y-auto shadow-2xl">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h2 className="font-display text-2xl font-bold text-white">
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+          <div className="w-full max-w-xl rounded-t-[28px] sm:rounded-[28px] bg-[#0b0426] border-t-2 sm:border-2 border-[#6854fc]/60 p-5 sm:p-8 space-y-5 max-h-[92vh] overflow-y-auto shadow-2xl">
+            <div className="sticky top-0 z-10 bg-[#0b0426] flex items-center justify-between border-b border-white/10 pb-3">
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
                 {editingMedia.mediaType === 'field_photo'
                   ? 'Edit Event Gallery Photo'
                   : 'Edit Live Event Video'}
@@ -2136,6 +2413,95 @@ export const AdminPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* =====================================================================
+          STICKY MOBILE BOTTOM NAVIGATION BAR (APP-STYLE THUMB NAVIGATION)
+         ===================================================================== */}
+      <nav
+        aria-label="Mobile Admin Navigation"
+        className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-[#0a0422]/95 backdrop-blur-xl border-t border-[#6854fc]/45 px-1.5 py-1.5 grid grid-cols-5 gap-1 shadow-[0_-8px_30px_rgba(0,0,0,0.6)]"
+      >
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab('catalogue');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-colors cursor-pointer ${
+            activeTab === 'catalogue'
+              ? 'bg-[#6854fc] text-white'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Package className="w-4 h-4 mb-0.5" />
+          <span className="truncate">Products</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab('videos');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-colors cursor-pointer ${
+            activeTab === 'videos'
+              ? 'bg-[#6854fc] text-white'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Video className="w-4 h-4 mb-0.5" />
+          <span className="truncate">Videos</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab('photos');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-colors cursor-pointer ${
+            activeTab === 'photos'
+              ? 'bg-[#6854fc] text-white'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <ImageIcon className="w-4 h-4 mb-0.5" />
+          <span className="truncate">Photos</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setSettingsForm(siteSettings);
+            setActiveTab('content');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-colors cursor-pointer ${
+            activeTab === 'content'
+              ? 'bg-[#6854fc] text-white'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <FileText className="w-4 h-4 mb-0.5" />
+          <span className="truncate">Settings</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab('enquiries');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className={`relative flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-[10px] font-bold transition-colors cursor-pointer ${
+            activeTab === 'enquiries'
+              ? 'bg-[#6854fc] text-white'
+              : 'text-slate-300 hover:text-white'
+          }`}
+        >
+          <Inbox className="w-4 h-4 mb-0.5" />
+          <span className="truncate">Inbox ({enquiries.length})</span>
+        </button>
+      </nav>
     </div>
   );
 };
