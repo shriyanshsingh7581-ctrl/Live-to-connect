@@ -308,6 +308,18 @@ export const AdminPage: React.FC = () => {
     reader.readAsText(file);
   };
 
+  const adminSeparateUrl =
+    typeof window !== 'undefined' ? `${window.location.origin}/admin` : '/admin';
+  const publicWebsiteUrl =
+    typeof window !== 'undefined' ? `${window.location.origin}/` : '/';
+
+  const handleCopyAdminUrl = () => {
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(adminSeparateUrl);
+      showToast('Separate Admin Link copied! Bookmark or save it.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#060216] text-white pb-24">
       {/* Toast Notification */}
@@ -318,9 +330,81 @@ export const AdminPage: React.FC = () => {
         </div>
       )}
 
+      {/* Dedicated Standalone Admin Portal Topbar (Completely Separate from Public Website) */}
+      <header className="sticky top-0 z-40 bg-[#0d0628]/95 backdrop-blur-xl border-b border-[#6854fc]/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="bg-white px-2.5 py-1 rounded-lg shrink-0">
+              <img
+                src={siteSettings.logoPath}
+                alt={siteSettings.businessName}
+                className="h-7 w-auto object-contain"
+              />
+            </div>
+            <div>
+              <div className="font-display text-lg font-bold text-white leading-none">
+                {siteSettings.businessName} <span className="text-[#a594ff]">ADMIN PORTAL</span>
+              </div>
+              <div className="text-[11px] font-mono-tabular text-emerald-400 mt-0.5">
+                Separate Private URL • Hidden from Public Website
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={handleCopyAdminUrl}
+              className="px-3.5 py-1.5 rounded-full bg-[#6854fc]/20 hover:bg-[#6854fc] border border-[#6854fc]/60 text-xs font-bold text-white transition-colors cursor-pointer"
+            >
+              Copy Admin Link (/admin)
+            </button>
+            <Link
+              to="/"
+              className="px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-bold text-white flex items-center gap-1.5 transition-colors"
+            >
+              <span>Open Customer Website</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </header>
+
       {/* Top Admin Control Header */}
-      <section className="relative intellio-hero-beams border-b border-[#6854fc]/35 pt-10 pb-8">
+      <section className="relative intellio-hero-beams border-b border-[#6854fc]/35 pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          {/* Separate Link Info Banner */}
+          <div className="rounded-2xl bg-[#0b0426]/90 border border-[#6854fc]/45 p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="text-xs font-mono-tabular uppercase tracking-wider text-emerald-400 font-bold">
+                ✓ Admin Link Removed from Public Website (Customer Header &amp; Footer Clean)
+              </div>
+              <div className="text-xs sm:text-sm text-slate-300">
+                Public Website Link: <span className="font-mono-tabular text-white">{publicWebsiteUrl}</span> &nbsp;|&nbsp; Separate Admin Link: <span className="font-mono-tabular text-[#a594ff] font-bold">{adminSeparateUrl}</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={handleCopyAdminUrl}
+                className="px-4 py-2 rounded-xl bg-[#6854fc] hover:bg-[#7b6aff] text-white text-xs font-bold cursor-pointer"
+              >
+                Copy Separate Admin Link
+              </button>
+              <a
+                href={`https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(
+                  `My Private Admin Panel Link for ${siteSettings.businessName}: ${adminSeparateUrl}`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center gap-1.5"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Save Link on My WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#6854fc]/20 border border-[#6854fc]/50 text-xs font-mono-tabular text-[#a594ff] mb-3">

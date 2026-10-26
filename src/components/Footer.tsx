@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Instagram, ArrowRight, Send, ChevronUp, Settings } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, ArrowRight, Send, ChevronUp } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from '../data/products';
 import { useQuote } from '../context/QuoteContext';
 
@@ -120,15 +120,6 @@ export const Footer: React.FC = () => {
               <li>
                 <Link to="/contact" className="hover:text-[#6854fc] transition-colors">
                   Contact Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/admin"
-                  className="text-[#a594ff] hover:text-white font-semibold inline-flex items-center gap-1.5 transition-colors"
-                >
-                  <Settings className="w-4 h-4" />
-                  <span>Admin Panel</span>
                 </Link>
               </li>
               <li>

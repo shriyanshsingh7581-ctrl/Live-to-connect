@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X, MessageCircle, ArrowRight, Settings } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, MessageCircle, ArrowRight } from 'lucide-react';
 import { useQuote } from '../context/QuoteContext';
 
 export const Header: React.FC = () => {
@@ -73,19 +73,6 @@ export const Header: React.FC = () => {
           </NavLink>
           <NavLink to="/contact" className={navLinkClass}>
             Contact
-          </NavLink>
-          <NavLink
-            to="/admin"
-            className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-full border text-xs font-bold flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
-                isActive
-                  ? 'bg-[#6854fc] border-[#6854fc] text-white'
-                  : 'bg-[#6854fc]/15 border-[#6854fc]/50 text-[#a594ff] hover:bg-[#6854fc] hover:text-white'
-              }`
-            }
-          >
-            <Settings className="w-3.5 h-3.5" />
-            <span>Admin Panel</span>
           </NavLink>
         </nav>
 
@@ -220,14 +207,6 @@ export const Header: React.FC = () => {
               className="px-4 py-3 rounded-2xl text-base font-display font-bold text-white hover:bg-[#6854fc]/20"
             >
               Contact
-            </NavLink>
-            <NavLink
-              to="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-4 py-3 rounded-2xl text-base font-display font-bold text-[#a594ff] bg-[#6854fc]/15 hover:bg-[#6854fc]/30 flex items-center gap-2"
-            >
-              <Settings className="w-4 h-4" />
-              <span>Admin Control Panel (A to Z)</span>
             </NavLink>
           </nav>
 
