@@ -1,69 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, MessageCircle, ArrowRight, Phone } from 'lucide-react';
-import { siteConfig, getWhatsAppUrl } from '../config/site';
 import { PRODUCT_CATEGORIES } from '../data/products';
 import { EquipmentImage } from '../components/EquipmentImage';
-
-interface FaqItem {
-  question: string;
-  answer: string;
-  category: string;
-}
-
-const FAQ_ITEMS: FaqItem[] = [
-  {
-    category: 'Rental Products',
-    question: 'What types of audio-visual equipment can I rent from LIVEON CONNECT?',
-    answer:
-      'LIVEON CONNECT provides 52 equipment configurations across 9 categories: Sound Systems (500W Bluetooth speakers up to JBL VRX and RCF 12 & 9007-AS line array stacks), Stage Lighting (LED Par Cans, Sharpy beams, Blinders, Profile/Follow spots, Avolites consoles, and Circle Lasers), Modular LED Walls (8×6 ft up to 10×30 ft and fine-pitch P2 walls), TVs & Displays (43" to 75" and Touch Screen TVs), Projectors, Mixers & Microphones (Soundcraft LX7, Allen & Heath SQ7, Drum Mic Sets), AV Accessories (Live Video Switchers, Clear-Com Intercoms, Cue Commanders), Special Effects, and Acoustic Diesel Gensets.',
-  },
-  {
-    category: 'Daily Rates',
-    question: 'How do daily rental rates work in the equipment catalogue?',
-    answer:
-      'Most sound, lighting, projector, mixer, display, and accessory items are listed with an indicative per-day reference price or price range in INR (₹/day). In the Quote Builder, daily equipment estimates are calculated as Selected Rate × Quantity × Rental Days. All displayed rates are reference figures and require confirmation from LIVEON CONNECT based on your specific event requirements.',
-  },
-  {
-    category: 'LED Wall Pricing',
-    question: 'How is LED wall pricing calculated for fixed sizes versus the P2 LED Wall?',
-    answer:
-      'Standard modular stage sizes (8×6 ft, 10×12 ft, 10×20 ft, and 10×30 ft) have indicative daily package reference ranges. The fine-pitch P2 LED Wall is priced per square foot (₹120–₹150/sq ft reference rate). In our catalogue and Quote Builder, you can enter your required Width (ft) and Height (ft) to calculate the total square footage and indicative estimate.',
-  },
-  {
-    category: 'Genset Billing',
-    question: 'How is the Diesel Genset billed for events?',
-    answer:
-      'Unlike standard daily AV items, the DEC DE63 CPCB IV+ soundproof diesel generator set is billed in 5-hour operational blocks (₹7,000 per 5 hours reference rate). You can select the required number of 5-hour blocks directly in the Catalogue or Quote Builder.',
-  },
-  {
-    category: 'Transportation',
-    question: 'Is venue transportation included in the indicative equipment estimate?',
-    answer:
-      'Transportation is calculated separately and shown as "To Be Confirmed" in your quote summary. Transport charges depend on the venue distance from Manimala, Kottayam, the total volume/weight of LED wall structures, sound stacks, or gensets, and local venue access conditions.',
-  },
-  {
-    category: 'Availability',
-    question: 'Does adding equipment to the Quote Cart reserve it for my event date?',
-    answer:
-      'Adding items to your Quote Cart generates an indicative enquiry list and does not automatically reserve inventory. Equipment availability for your specific event date must be verified directly with LIVEON CONNECT via WhatsApp or phone.',
-  },
-  {
-    category: 'Delivery and Setup',
-    question: 'Do you provide delivery, on-site setup, and technical operation?',
-    answer:
-      'Yes, where available and confirmed as part of your quotation, LIVEON CONNECT coordinates equipment delivery to your venue, stage rigging, signal setup, and post-event collection after the show.',
-  },
-  {
-    category: 'Quote Requests',
-    question: 'How do I request a final confirmed quotation?',
-    answer:
-      'Select your required gear in the Catalogue, open the Rental Quote Builder (/quote), enter your event date, venue, and audience size, and click "Send Quote Request via WhatsApp". This opens a pre-formatted WhatsApp message addressed to +91 8590952476 so our team can confirm availability and provide your final quotation.',
-  },
-];
+import { useQuote } from '../context/QuoteContext';
 
 export const AboutPage: React.FC = () => {
+  const { siteSettings, faqItems, products } = useQuote();
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  const whatsappUrl = `https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(
+    `Hello ${siteSettings.businessName}, I would like to enquire about audio-visual equipment rentals for an upcoming event.`
+  )}`;
+  const dialPhone = siteSettings.phone.replace(/[^0-9+]/g, '');
 
   return (
     <div className="min-h-screen bg-[#060814] text-slate-100">
@@ -78,7 +27,7 @@ export const AboutPage: React.FC = () => {
         />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-xs font-semibold tracking-wider text-indigo-300 font-mono-tabular">
-            About {siteConfig.businessName}
+            About {siteSettings.businessName}
           </p>
           <h1
             className="text-3xl sm:text-5xl font-bold mt-2 max-w-3xl"
@@ -87,7 +36,7 @@ export const AboutPage: React.FC = () => {
             Your AV Partner for <span className="led-text-gradient">Memorable Events</span>
           </h1>
           <p className="text-base sm:text-lg text-slate-300 mt-4 max-w-2xl leading-relaxed">
-            {siteConfig.businessName} ({siteConfig.tagline}) provides audio-visual rental solutions from Manimala, Kottayam, Kerala.
+            {siteSettings.businessName} ({siteSettings.tagline}) provides audio-visual rental solutions from {siteSettings.addressFull}.
           </p>
         </div>
       </section>
@@ -99,8 +48,8 @@ export const AboutPage: React.FC = () => {
             <div className="lg:col-span-6 space-y-5">
               <div className="inline-block bg-white p-3 rounded-xl shadow-md">
                 <img
-                  src={siteConfig.logoPath}
-                  alt={siteConfig.businessName}
+                  src={siteSettings.logoPath}
+                  alt={siteSettings.businessName}
                   className="h-14 w-auto object-contain"
                 />
               </div>
@@ -108,7 +57,7 @@ export const AboutPage: React.FC = () => {
                 Comprehensive Event Audio-Visual Rentals
               </h2>
               <p className="text-base text-slate-300 leading-relaxed">
-                LIVEON CONNECT provides audio-visual rental solutions for events, including LED walls, live streaming, sound systems, stage lighting, and supporting equipment. We help customers explore suitable equipment combinations based on their event requirements, venue, audience, and budget.
+                {siteSettings.businessName} provides audio-visual rental solutions for events, including LED walls, live streaming, sound systems, stage lighting, and supporting equipment. We help customers explore suitable equipment combinations based on their event requirements, venue, audience, and budget.
               </p>
               <p className="text-sm text-slate-400 leading-relaxed">
                 Whether you are organizing a corporate conference, a product launch, a wedding reception, or a live concert, our catalogue brings together modular LED walls, digital audio consoles, line-array speaker systems, intelligent stage lighting, multi-camera video switchers, and backup generator power under one roof.
@@ -125,7 +74,7 @@ export const AboutPage: React.FC = () => {
                   />
                 </div>
                 <p className="text-xs text-slate-300 px-2 pt-2.5">
-                  LIVEON CONNECT on-site OBS Studio live production desk, road-ready flight cases, and modular stage LED wall.
+                  {siteSettings.businessName} on-site OBS Studio live production desk, road-ready flight cases, and modular stage LED wall.
                 </p>
               </div>
 
@@ -210,7 +159,7 @@ export const AboutPage: React.FC = () => {
                 Equipment Categories We Offer
               </h3>
               <p className="text-xs text-slate-400 mt-1 mb-4">
-                52 rental configurations across 9 specialized AV categories:
+                {products.length} rental configurations across 9 specialized AV categories:
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {PRODUCT_CATEGORIES.map((category) => (
@@ -269,11 +218,11 @@ export const AboutPage: React.FC = () => {
           </div>
 
           <div className="space-y-3">
-            {FAQ_ITEMS.map((item, idx) => {
+            {faqItems.map((item, idx) => {
               const isOpen = openFaqIndex === idx;
               return (
                 <div
-                  key={item.question}
+                  key={item.id}
                   className="intellio-card rounded-2xl overflow-hidden"
                 >
                   <button
@@ -315,17 +264,17 @@ export const AboutPage: React.FC = () => {
             Need Help Selecting the Right AV Package?
           </h2>
           <p className="text-sm sm:text-base text-slate-300 max-w-xl mx-auto">
-            Reach out to {siteConfig.businessName} in Manimala, Kottayam to discuss your venue layout, audience size, and technical requirements.
+            Reach out to {siteSettings.businessName} in {siteSettings.addressFull} to discuss your venue layout, audience size, and technical requirements.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <a
-              href={getWhatsAppUrl()}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-6 py-3 rounded-xl intellio-btn-primary text-white text-sm font-semibold flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp {siteConfig.whatsappDisplay}</span>
+              <span>WhatsApp {siteSettings.phone}</span>
             </a>
             <Link
               to="/catalogue"
@@ -335,11 +284,11 @@ export const AboutPage: React.FC = () => {
               <ArrowRight className="w-4 h-4 text-indigo-400" />
             </Link>
             <a
-              href={`tel:${siteConfig.phoneDial}`}
+              href={`tel:${dialPhone}`}
               className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/15 text-sm font-semibold flex items-center justify-center gap-2"
             >
               <Phone className="w-4 h-4 text-cyan-400" />
-              <span>Call {siteConfig.phone}</span>
+              <span>Call {siteSettings.phone}</span>
             </a>
           </div>
         </div>

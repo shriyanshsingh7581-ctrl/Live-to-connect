@@ -21,283 +21,9 @@ import {
   Star,
   Video,
 } from 'lucide-react';
-import { siteConfig, getWhatsAppUrl } from '../config/site';
 import { useQuote } from '../context/QuoteContext';
 import { ProductCard } from '../components/ProductCard';
 import { EquipmentImage } from '../components/EquipmentImage';
-
-const HERO_VIDEOS = [
-  {
-    id: 'auditorium-stream',
-    title: 'Auditorium LED Wall, Line-Array & OBS Live Stream',
-    tag: 'Live Streaming + Stage Rig',
-    src: '/assets/aistudio/VID-20261025-WA0042_707f40a7.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0037_70b34a7b.jpg',
-  },
-  {
-    id: 'wedding-led-wall',
-    title: 'Grand Wedding Reception Stage P2/P3 LED Wall',
-    tag: 'Wedding Stage LED Wall',
-    src: '/assets/aistudio/VID-20261025-WA0044_a553324a.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0040_6d732744.jpg',
-  },
-  {
-    id: 'cultural-dance-led',
-    title: 'Cultural Dance Stage LED Backdrop & OBS Live Switching',
-    tag: 'Cultural Show + OBS Control',
-    src: '/assets/aistudio/VID-20261025-WA0074_299cd498.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg',
-  },
-  {
-    id: 'indoor-court-concert',
-    title: 'Indoor Arena Concert — Moving Beams, NovaStar VX1 & PA Rig',
-    tag: 'Concert Lighting + Sound',
-    src: '/assets/aistudio/VID-20261025-WA0071_2406a325.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0043_7db4c382.jpg',
-  },
-];
-
-const LIVE_PRODUCTION_VIDEOS = [
-  {
-    id: 'vid-01',
-    number: '01. Live Auditorium Broadcast',
-    title: 'OBS Live Stream, Line-Array PA & Moving Heads',
-    caption:
-      'Full auditorium stage rig with flown line-array speakers, 4-head beam lighting bar, and live camera broadcast.',
-    src: '/assets/aistudio/VID-20261025-WA0042_707f40a7.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0037_70b34a7b.jpg',
-    span: 'md:col-span-6',
-  },
-  {
-    id: 'vid-02',
-    number: '02. Wedding Stage LED Wall',
-    title: 'Grand Reception High-Brightness Stage LED Wall',
-    caption:
-      'Seamless large-format wedding reception LED backdrop delivering vibrant colors alongside floral stage decor.',
-    src: '/assets/aistudio/VID-20261025-WA0044_a553324a.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0040_6d732744.jpg',
-    span: 'md:col-span-6',
-  },
-  {
-    id: 'vid-03',
-    number: '03. Classical Dance & Stage Visuals',
-    title: 'Stage Dance Performance with Live OBS LED Wall Switching',
-    caption:
-      'Real-time visual backdrop control from our FOH laptop desk during a classical stage dance performance.',
-    src: '/assets/aistudio/VID-20261025-WA0074_299cd498.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg',
-    span: 'md:col-span-4',
-  },
-  {
-    id: 'vid-04',
-    number: '04. Graduation Ceremony Broadcast',
-    title: 'Dual-Laptop OBS Studio Multi-Scene Auditorium Stream',
-    caption:
-      'Pope John Paul II Indoor Court Graduation Ceremony 2026 with dual-laptop OBS control and stage LED screen.',
-    src: '/assets/aistudio/VID-20261025-WA0073_b2b97e51.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0043_7db4c382.jpg',
-    span: 'md:col-span-4',
-  },
-  {
-    id: 'vid-05',
-    number: '05. Indoor Arena Concert Rig',
-    title: 'NovaStar VX1 Rack, Moving Beam Lights & Column Line-Array',
-    caption:
-      'High-energy arena production featuring synchronized overhead beam lighting, FOH control desk, and PA sound.',
-    src: '/assets/aistudio/VID-20261025-WA0071_2406a325.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0037_70b34a7b.jpg',
-    span: 'md:col-span-4',
-  },
-  {
-    id: 'vid-06',
-    number: '06. Live DJ & Crowd Show',
-    title: 'Concert Crowd Energy, FOH Sound Engineer & Stage Lighting',
-    caption:
-      'Live FOH sound & lighting operation with Hollyland monitoring and dynamic beam washes across the crowd.',
-    src: '/assets/aistudio/VID-20261025-WA0072_2e6371a0.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0032_fbbc607c.jpg',
-    span: 'md:col-span-6',
-  },
-  {
-    id: 'vid-07',
-    number: '07. Wedding Hall Multi-Cam & LED Setup',
-    title: 'Auditorium Wedding Mandap, Vertical LED Banner & Camera Rig',
-    caption:
-      'Complete wedding hall AV coverage with stage lighting, broadcast camera tripod setup, and LED display.',
-    src: '/assets/aistudio/VID-20261025-WA0070_2d045f3a.mp4',
-    poster: '/assets/aistudio/IMG-20261025-WA0068_830a56a3.jpg',
-    span: 'md:col-span-6',
-  },
-];
-
-const EVENT_CATEGORIES = [
-  {
-    id: 'corporate',
-    eyebrow: '01. Conferences & Summits',
-    title: 'Auditorium Conferences & Convocations',
-    description:
-      'NovaStar VX1 LED wall processing, OBS multi-scene live streaming, stage moving-head lighting, and clear speech reinforcement.',
-    image: '/assets/aistudio/IMG-20261025-WA0043_7db4c382.jpg',
-    link: '/catalogue?event=corporate',
-  },
-  {
-    id: 'launches',
-    eyebrow: '02. Multi-Cam Broadcast',
-    title: 'Live Streaming & Broadcast Control',
-    description:
-      'Blackmagic ATEM live switchers, Hollyland multiview monitors, YoloLiv encoders, Sony camcorders, and wireless RF audio racks.',
-    image: '/assets/aistudio/IMG-20261025-WA0023_0e200ba8.jpg',
-    link: '/catalogue?event=launches',
-  },
-  {
-    id: 'weddings',
-    eyebrow: '03. Celebrations',
-    title: 'Weddings & Grand Receptions',
-    description:
-      'High-brightness stage LED walls, live camera feed projection, warm stage wash lighting, Cold Fire sparks, and QSC/RCF sound.',
-    image: '/assets/aistudio/IMG-20261025-WA0069_b0d21777.jpg',
-    link: '/catalogue?event=weddings',
-  },
-  {
-    id: 'concerts',
-    eyebrow: '04. Live Concerts & Mega Shows',
-    title: 'Outdoor Mega Shows, Concerts & Stage Programs',
-    description:
-      'Custom widescreen outdoor & indoor LED backdrops, stage vocal & instrument microphone kits, digital mixing consoles, and line-array PA systems.',
-    image: '/assets/aistudio/IMG-20261025-WA0065_f92ae4c4.jpg',
-    link: '/catalogue?event=concerts',
-  },
-];
-
-const FIELD_PRODUCTION_GALLERY = [
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg',
-    category: 'FOH Control & LED Wall',
-    title: 'LIVEON CONNECT Production Desk & Stage LED Wall',
-    caption:
-      'On-site OBS Studio live switching, stage LED wall graphics, and road-ready LIVEON CONNECT flight cases.',
-    span: 'lg:col-span-7',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0065_f92ae4c4.jpg',
-    category: 'Outdoor LED Wall Mega Show',
-    title: 'Outdoor Stage LED Wall, PA Sound Stacks & Truss Lighting',
-    caption:
-      'High-brightness outdoor festival LED wall installation with full-range PA speaker stacks and warm stage flood lighting.',
-    span: 'lg:col-span-5',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0068_830a56a3.jpg',
-    category: 'Wedding FOH & NovaStar Rack',
-    title: 'Wedding Reception NovaStar VX1, OBS Control & Mandap LED Wall',
-    caption:
-      'Complete front-of-house control desk featuring NovaStar VX1 LED processor rack, OBS live camera switching, PA speakers, and stage LED screen.',
-    span: 'lg:col-span-6',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0069_b0d21777.jpg',
-    category: 'Live Ceremony Projection',
-    title: 'Traditional Kerala Wedding Procession on Grand Stage LED Wall',
-    caption:
-      'Real-time multi-camera wedding coverage projected onto a crystal-clear indoor LED wall right beside the floral wedding stage.',
-    span: 'lg:col-span-6',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0027_d40569c7.jpg',
-    category: 'Multi-Cam & Wireless RF',
-    title: 'Sony Broadcast Camera & 8-Channel Wireless Rack',
-    caption:
-      'Professional Sachtler tripod camera rig integrated with multi-channel wireless audio receivers and multiview monitor.',
-    span: 'lg:col-span-4',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0023_0e200ba8.jpg',
-    category: 'Broadcast Switching',
-    title: 'ATEM Video Switcher & Dual Hollyland Multiview',
-    caption:
-      'Dedicated multi-camera live switching console with real-time program/preview monitoring and recording.',
-    span: 'lg:col-span-4',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0021_07860ad8.jpg',
-    category: 'Live Streaming Rig',
-    title: 'YoloLiv Multi-HDMI Encoder & Audio Mixing',
-    caption:
-      'Portable multi-input HDMI encoder, tactile stream deck macro controller, and laptop audio mixing workstation.',
-    span: 'lg:col-span-4',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0040_6d732744.jpg',
-    category: 'Wedding Reception LED Wall',
-    title: 'Grand Wedding Stage & Live LED Video Wall',
-    caption:
-      'Seamless large-format LED video wall installed alongside floral wedding mandap stages for live ceremony projection.',
-    span: 'lg:col-span-6',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0032_fbbc607c.jpg',
-    category: 'Musical & Cultural Concerts',
-    title: 'Live Concert Stage LED Wall & Microphone Array',
-    caption:
-      'Full stage visual backdrop paired with dynamic vocal microphones, instrument pickups, and stage monitors.',
-    span: 'lg:col-span-6',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0020_ecb653b2.jpg',
-    category: 'Public Ceremonies',
-    title: 'Dignitary Felicitation & Award Ceremony LED Wall',
-    caption:
-      'Bright indoor LED backdrop and stage audio reinforcement for official ceremonies and public gatherings across Kerala.',
-    span: 'lg:col-span-4',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0043_7db4c382.jpg',
-    category: 'Auditorium Production',
-    title: 'Golden Jubilee Auditorium — NovaStar VX1 & OBS Stream',
-    caption:
-      'NovaStar VX1 LED display video controller rack paired with live graduation ceremony broadcast and stage lighting.',
-    span: 'lg:col-span-4',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0037_70b34a7b.jpg',
-    category: 'Complete Stage Package',
-    title: 'Line-Array PA, Moving-Head T-Bar & LED Wall',
-    caption:
-      'Synchronized auditorium setup combining flown line-array speakers, 4-head beam lighting bar, and live streaming.',
-    span: 'lg:col-span-4',
-  },
-  {
-    image: '/assets/aistudio/IMG-20261025-WA0038_146757e2.jpg',
-    category: 'Reception Backdrop',
-    title: 'Indoor Banquet & Wedding Reception LED Screen',
-    caption:
-      'High-contrast P2/P3 indoor LED wall delivering vibrant wide-angle visuals for wedding receptions and banquets.',
-    span: 'lg:col-span-12',
-  },
-];
-
-const KPI_CARDS = [
-  {
-    metric: '52+',
-    description: 'Complete sound, lighting, LED wall & AV equipment packages in our catalogue',
-    icon: Speaker,
-  },
-  {
-    metric: '9',
-    description: 'Specialized AV rental categories for corporate, wedding & concert stages',
-    icon: Star,
-  },
-  {
-    metric: '100%',
-    description: 'Quality-checked equipment organized in road-ready flight cases before dispatch',
-    icon: ShieldCheck,
-  },
-  {
-    metric: '4 Steps',
-    description: 'Streamlined WhatsApp quote, venue delivery, technical setup & post-show collection',
-    icon: Truck,
-  },
-];
 
 const WHY_CHOOSE_FEATURES = [
   {
@@ -351,7 +77,7 @@ const HOW_IT_WORKS_STEPS = [
     number: 'Step 02',
     title: 'Choose the Right Equipment',
     description:
-      'Browse our 52-item equipment catalogue across 9 categories and add speakers, LED walls, lighting, and accessories to your quote cart.',
+      'Browse our equipment catalogue across 9 categories and add speakers, LED walls, lighting, and accessories to your quote cart.',
     barHeight: 'h-28',
     barColor: 'bg-[#ec792b]',
   },
@@ -373,39 +99,53 @@ const HOW_IT_WORKS_STEPS = [
   },
 ];
 
-const HIGHLIGHT_STORIES = [
-  {
-    quote:
-      'LIVEON CONNECT provides complete audio-visual rental solutions for events, including modular LED walls, multi-cam live streaming, line-array sound systems, and intelligent stage lighting across Kerala.',
-    author: 'LIVEON CONNECT Production Team',
-    role: 'Manimala, Kottayam, Kerala – 686543',
-    photo: '/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg',
-  },
-  {
-    quote:
-      'Our live streaming and broadcast control desks feature NovaStar VX1 LED processors, Blackmagic ATEM switchers, YoloLiv encoders, and multi-channel wireless RF audio for seamless auditorium and wedding coverage.',
-    author: 'Live Broadcast & LED Wall Desk',
-    role: 'LED Wall, Live Streaming & Sound Company',
-    photo: '/assets/aistudio/IMG-20261025-WA0023_0e200ba8.jpg',
-  },
-  {
-    quote:
-      'From grand wedding reception LED walls and felicitation ceremonies to RCF 9007-AS concert line-arrays and stage lighting rigs, we deliver, set up, and pick up after your show.',
-    author: 'Event Rental Desk',
-    role: 'WhatsApp +91 8590952476',
-    photo: '/assets/aistudio/IMG-20261025-WA0040_6d732744.jpg',
-  },
-];
-
 export const HomePage: React.FC = () => {
-  const { products } = useQuote();
-  const featuredProducts = products.slice(0, 8);
+  const {
+    products,
+    siteSettings,
+    mediaItems,
+    eventCategories,
+    highlightStories,
+  } = useQuote();
+
+  const featuredmarked = products.filter((p) => p.featured);
+  const featuredProducts =
+    featuredmarked.length >= 4 ? featuredmarked.slice(0, 8) : products.slice(0, 8);
+
+  const heroVideos = mediaItems.filter((m) => m.mediaType === 'hero_video');
+  const productionVideos = mediaItems.filter((m) => m.mediaType === 'production_video');
+  const fieldPhotos = mediaItems.filter((m) => m.mediaType === 'field_photo');
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [activeVideoIndex, setActiveVideoIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
 
-  const currentVideo = HERO_VIDEOS[activeVideoIndex];
+  const currentVideo = heroVideos[activeVideoIndex] || heroVideos[0];
+  const currentStory = highlightStories[activeStoryIndex] || highlightStories[0];
+
+  const kpiCards = [
+    {
+      metric: `${products.length}+`,
+      description: 'Complete sound, lighting, LED wall & AV equipment packages in our catalogue',
+      icon: Speaker,
+    },
+    {
+      metric: '9',
+      description: 'Specialized AV rental categories for corporate, wedding & concert stages',
+      icon: Star,
+    },
+    {
+      metric: '100%',
+      description: 'Quality-checked equipment organized in road-ready flight cases before dispatch',
+      icon: ShieldCheck,
+    },
+    {
+      metric: '4 Steps',
+      description: 'Streamlined WhatsApp quote, venue delivery, technical setup & post-show collection',
+      icon: Truck,
+    },
+  ];
 
   const toggleSound = () => {
     const vid = videoRef.current;
@@ -422,33 +162,33 @@ export const HomePage: React.FC = () => {
     setIsMuted(true);
   };
 
-  const currentStory = HIGHLIGHT_STORIES[activeStoryIndex];
+  const whatsappUrl = `https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(
+    `Hello ${siteSettings.businessName}, I would like to enquire about audio-visual equipment rentals for an upcoming event.`
+  )}`;
+  const dialPhone = siteSettings.phone.replace(/[^0-9+]/g, '');
 
   return (
     <div className="overflow-x-hidden bg-[#060216] text-white">
       {/* =====================================================================
-          1. HERO SECTION — Exact match to frame_01, frame_02 & frame_03
+          1. HERO SECTION — Controlled dynamically via Admin Panel
          ===================================================================== */}
       <section className="relative overflow-hidden intellio-hero-beams pt-14 pb-20 sm:pt-20 sm:pb-24">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Centered Intellio Hero Copy & Outlined Glow CTA (frame_01) */}
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <div>
-              <span className="intellio-pill-badge">
-                Audio · Lighting · LED · AV Rentals — Kerala
-              </span>
+              <span className="intellio-pill-badge">{siteSettings.heroBadge}</span>
             </div>
 
             <h1
               className="font-display text-4xl sm:text-6xl lg:text-[4.25rem] font-bold tracking-tight text-white leading-[1.06]"
               style={{ textWrap: 'balance' }}
             >
-              Complete Audio-Visual Solutions for Events of{' '}
-              <span className="text-[#6854fc]">Every Scale</span>
+              {siteSettings.heroTitle}{' '}
+              <span className="text-[#6854fc]">{siteSettings.heroAccent}</span>
             </h1>
 
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto">
-              Sound systems, stage lighting, trussing, LED walls, live streaming, projection and displays from one partner. Delivered to your venue, set up, and picked up after the show.
+              {siteSettings.heroSubtitle}
             </p>
 
             <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -461,89 +201,90 @@ export const HomePage: React.FC = () => {
               </Link>
 
               <a
-                href={getWhatsAppUrl()}
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-4 intellio-solid-btn text-base sm:text-lg flex items-center justify-center gap-2.5 whitespace-nowrap"
               >
                 <MessageCircle className="w-5 h-5" />
-                <span>WhatsApp +91 8590952476</span>
+                <span>WhatsApp {siteSettings.phone}</span>
               </a>
             </div>
           </div>
 
-          {/* Framed Intellio Showcase Cards Below Hero (frame_02 & frame_03) */}
+          {/* Framed Intellio Showcase Cards Below Hero */}
           <div className="mt-14 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-            {/* Live Event Video Showcase Card with Dual Video Switcher */}
-            <div className="lg:col-span-8 rounded-[28px] border-2 border-[#6854fc]/45 bg-[#0a0422] p-3.5 sm:p-5 shadow-[0_25px_70px_-15px_rgba(104,84,252,0.35)] flex flex-col justify-between gap-3">
-              <div className="flex flex-wrap items-center justify-between gap-2 px-2">
-                <div>
-                  <span className="text-[11px] font-mono-tabular uppercase tracking-wider text-[#8c7bff] block">
-                    {currentVideo.tag}
-                  </span>
-                  <span className="font-display text-lg sm:text-xl font-bold text-white">
-                    {currentVideo.title}
-                  </span>
+            {/* Live Event Video Showcase Card with Multi-Video Switcher */}
+            {currentVideo && (
+              <div className="lg:col-span-8 rounded-[28px] border-2 border-[#6854fc]/45 bg-[#0a0422] p-3.5 sm:p-5 shadow-[0_25px_70px_-15px_rgba(104,84,252,0.35)] flex flex-col justify-between gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 px-2">
+                  <div>
+                    <span className="text-[11px] font-mono-tabular uppercase tracking-wider text-[#8c7bff] block">
+                      {currentVideo.categoryOrTag}
+                    </span>
+                    <span className="font-display text-lg sm:text-xl font-bold text-white">
+                      {currentVideo.title}
+                    </span>
+                  </div>
+
+                  {/* Switch between Hero Video Reels */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    {heroVideos.map((vid, idx) => (
+                      <button
+                        key={vid.id}
+                        type="button"
+                        onClick={() => handleSelectVideo(idx)}
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-display font-bold transition-colors cursor-pointer flex items-center gap-1.5 ${
+                          activeVideoIndex === idx
+                            ? 'bg-[#6854fc] text-white shadow-[0_0_16px_rgba(104,84,252,0.6)]'
+                            : 'bg-white/5 text-slate-300 border border-[#6854fc]/35 hover:text-white'
+                        }`}
+                      >
+                        <Video className="w-3.5 h-3.5" />
+                        <span>Live Reel 0{idx + 1}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Switch between the 2 uploaded live videos */}
-                <div className="flex items-center gap-2">
-                  {HERO_VIDEOS.map((vid, idx) => (
-                    <button
-                      key={vid.id}
-                      type="button"
-                      onClick={() => handleSelectVideo(idx)}
-                      className={`px-3.5 py-1.5 rounded-full text-xs font-display font-bold transition-colors cursor-pointer flex items-center gap-1.5 ${
-                        activeVideoIndex === idx
-                          ? 'bg-[#6854fc] text-white shadow-[0_0_16px_rgba(104,84,252,0.6)]'
-                          : 'bg-white/5 text-slate-300 border border-[#6854fc]/35 hover:text-white'
-                      }`}
-                    >
-                      <Video className="w-3.5 h-3.5" />
-                      <span>Live Reel 0{idx + 1}</span>
-                    </button>
-                  ))}
+                <div className="relative rounded-[20px] overflow-hidden bg-[#060216] aspect-video border border-[#6854fc]/35">
+                  <video
+                    key={currentVideo.src}
+                    ref={videoRef}
+                    src={currentVideo.src}
+                    poster={currentVideo.poster}
+                    autoPlay
+                    muted={isMuted}
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="block w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={toggleSound}
+                    className="absolute right-3.5 bottom-3.5 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-[#08031d]/90 hover:bg-[#6854fc] border border-[#6854fc]/60 text-white text-xs font-bold backdrop-blur-md transition-colors cursor-pointer"
+                    aria-label={isMuted ? 'Unmute video sound' : 'Mute video sound'}
+                  >
+                    {isMuted ? (
+                      <>
+                        <VolumeX className="w-4 h-4 text-[#8c7bff]" />
+                        <span>Tap for sound</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4 text-white" />
+                        <span>Sound on</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
+            )}
 
-              <div className="relative rounded-[20px] overflow-hidden bg-[#060216] aspect-video border border-[#6854fc]/35">
-                <video
-                  key={currentVideo.src}
-                  ref={videoRef}
-                  src={currentVideo.src}
-                  poster={currentVideo.poster}
-                  autoPlay
-                  muted={isMuted}
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="block w-full h-full object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={toggleSound}
-                  className="absolute right-3.5 bottom-3.5 inline-flex items-center gap-2 rounded-full px-4 py-2 bg-[#08031d]/90 hover:bg-[#6854fc] border border-[#6854fc]/60 text-white text-xs font-bold backdrop-blur-md transition-colors cursor-pointer"
-                  aria-label={isMuted ? 'Unmute video sound' : 'Mute video sound'}
-                >
-                  {isMuted ? (
-                    <>
-                      <VolumeX className="w-4 h-4 text-[#8c7bff]" />
-                      <span>Tap for sound</span>
-                    </>
-                  ) : (
-                    <>
-                      <Volume2 className="w-4 h-4 text-white" />
-                      <span>Sound on</span>
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Solid Periwinkle Purple Feature Card with Concentric Rings (Exact match to bottom card in frame_03) */}
+            {/* Solid Periwinkle Purple Feature Card with Concentric Rings */}
             <div className="lg:col-span-4 rounded-[28px] border-2 border-[#6854fc]/45 bg-[#0a0422] p-3.5 sm:p-5 flex flex-col">
               <div className="relative flex-1 rounded-[22px] bg-[#6854fc] overflow-hidden p-6 flex flex-col justify-between min-h-[320px]">
-                {/* Concentric subtle rings matching frame_03 */}
                 <div
                   className="pointer-events-none absolute -bottom-16 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full border border-white/20"
                   aria-hidden="true"
@@ -559,10 +300,10 @@ export const HomePage: React.FC = () => {
                   </div>
                   <div>
                     <div className="font-display text-3xl font-bold text-white leading-none">
-                      52 Products
+                      {products.length} Products
                     </div>
                     <div className="text-sm font-medium text-white/90 mt-1">
-                      LIVEON CONNECT Production Rig
+                      {siteSettings.businessName} Rig
                     </div>
                   </div>
                 </div>
@@ -570,7 +311,7 @@ export const HomePage: React.FC = () => {
                 <div className="relative z-10 mt-5 space-y-2">
                   <div className="rounded-2xl overflow-hidden border border-white/25 shadow-lg">
                     <EquipmentImage
-                      src="/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg"
+                      src={fieldPhotos[0]?.src || '/assets/aistudio/IMG-20261025-WA0039_851e9d5d.jpg'}
                       alt="LIVEON CONNECT FOH Control & Stage LED Wall"
                       className="w-full h-44 object-cover"
                     />
@@ -586,12 +327,12 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          2. KPI METRIC CARDS SECTION — Exact match to frame_05.jpg
+          2. KPI METRIC CARDS SECTION
          ===================================================================== */}
       <section className="py-12 sm:py-16 bg-[#060216]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {KPI_CARDS.map((card) => {
+            {kpiCards.map((card) => {
               const IconComponent = card.icon;
               return (
                 <div
@@ -617,17 +358,16 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          3. GLOWING BEAM BANNER & EVENT CATEGORIES — Exact match to frame_06, 07, 08
+          3. GLOWING BEAM BANNER & EVENT CATEGORIES
          ===================================================================== */}
       <section className="py-16 sm:py-24 relative overflow-hidden" id="events">
-        {/* Top Glowing Purple Beam Banner (frame_06) */}
         <div className="relative py-6 mb-12 border-y border-[#6854fc]/35 bg-gradient-to-r from-[#180c4a] via-[#5842f4] to-[#180c4a] overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 flex items-center justify-between gap-8 overflow-x-auto whitespace-nowrap">
             <span className="font-display text-3xl sm:text-5xl font-bold tracking-wider text-white/40 uppercase">
               LED WALLS &amp; SOUND
             </span>
             <span className="font-display text-3xl sm:text-5xl font-bold tracking-wider text-white uppercase">
-              LIVEON CONNECT
+              {siteSettings.businessName}
             </span>
             <span className="font-display text-3xl sm:text-5xl font-bold tracking-wider text-white/40 uppercase">
               LIVE STREAMING
@@ -636,7 +376,6 @@ export const HomePage: React.FC = () => {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Centered Section Header (frame_08) */}
           <div className="text-center max-w-3xl mx-auto mb-12 space-y-4">
             <div>
               <span className="intellio-pill-badge">Built for Every Occasion</span>
@@ -652,9 +391,8 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          {/* 4 Event Category Cards with Real Event Photos (frame_08 & frame_09) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {EVENT_CATEGORIES.map((eventCat) => (
+            {eventCategories.map((eventCat) => (
               <Link
                 key={eventCat.id}
                 to={eventCat.link}
@@ -693,7 +431,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          4. FEATURED EQUIPMENT CATALOGUE — Matching frame_09 & frame_15
+          4. FEATURED EQUIPMENT CATALOGUE
          ===================================================================== */}
       <section className="py-16 sm:py-24 bg-[#07021a] border-t border-[#6854fc]/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -718,13 +456,12 @@ export const HomePage: React.FC = () => {
             ))}
           </div>
 
-          {/* Full-Width Solid Periwinkle Banner Button (inspired by bottom of frame_15) */}
           <div className="mt-12 max-w-xl mx-auto">
             <Link
               to="/catalogue"
               className="w-full py-4 px-8 intellio-solid-btn text-xl flex items-center justify-center gap-3"
             >
-              <span>View Full Catalogue (All 52 Products)</span>
+              <span>View Full Catalogue (All {products.length} Products)</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -732,7 +469,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          5. REAL EVENT PRODUCTIONS & FIELD GALLERY — Showcasing All 10 Photos & 2 Videos
+          5. REAL EVENT PRODUCTIONS & FIELD GALLERY — Dynamic Videos & Photos
          ===================================================================== */}
       <section className="py-16 sm:py-24 bg-[#060216] border-t border-[#6854fc]/20" id="productions">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -745,16 +482,16 @@ export const HomePage: React.FC = () => {
               style={{ textWrap: 'balance' }}
             >
               On-Site LED Walls, Live Streaming &amp; Stage Setups by{' '}
-              <span className="text-[#6854fc]">{siteConfig.businessName}</span>
+              <span className="text-[#6854fc]">{siteSettings.businessName}</span>
             </h2>
             <p className="text-base text-slate-300">
               Real field installations from auditoriums, wedding receptions, concerts, and multi-camera broadcast control desks across Kerala.
             </p>
           </div>
 
-          {/* 7 Live Production Video Reels Grid */}
+          {/* Live Production Video Reels Grid */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-10">
-            {LIVE_PRODUCTION_VIDEOS.map((vid) => (
+            {productionVideos.map((vid) => (
               <div
                 key={vid.id}
                 className={`${vid.span} intellio-card intellio-card-hover rounded-[28px] p-4 sm:p-5 flex flex-col justify-between gap-3`}
@@ -762,7 +499,7 @@ export const HomePage: React.FC = () => {
                 <div className="flex items-start justify-between gap-2 px-1">
                   <div>
                     <span className="text-xs font-mono-tabular text-[#8c7bff] font-semibold block">
-                      {vid.number}
+                      {vid.categoryOrTag}
                     </span>
                     <h3 className="font-display text-lg sm:text-xl font-bold text-white leading-snug">
                       {vid.title}
@@ -791,22 +528,22 @@ export const HomePage: React.FC = () => {
             ))}
           </div>
 
-          {/* 13 Real Field Photos Matched to Technical Descriptions */}
+          {/* Real Field Photos Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {FIELD_PRODUCTION_GALLERY.map((item) => (
+            {fieldPhotos.map((item) => (
               <div
-                key={item.image}
+                key={item.id}
                 className={`${item.span} group intellio-card intellio-card-hover rounded-[28px] p-4 sm:p-5 flex flex-col justify-between gap-4`}
               >
                 <div className="relative rounded-[20px] overflow-hidden aspect-[16/10] border border-[#6854fc]/35 bg-[#050112]">
                   <img
-                    src={item.image}
+                    src={item.src}
                     alt={item.title}
                     loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute top-3 left-3 px-3.5 py-1 rounded-full bg-[#08031d]/90 border border-[#6854fc]/60 text-[11px] font-mono-tabular font-semibold text-[#a594ff] backdrop-blur-md">
-                    {item.category}
+                    {item.categoryOrTag}
                   </div>
                 </div>
                 <div className="px-1 space-y-1">
@@ -824,37 +561,30 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          6. CONCENTRIC ORBIT RINGS & AV CAPABILITIES — Exact match to frame_11 & frame_12
+          6. CONCENTRIC ORBIT RINGS & AV CAPABILITIES
          ===================================================================== */}
       <section className="py-16 sm:py-24 bg-[#07021a] border-t border-[#6854fc]/20 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Column: Concentric Glowing Purple Radar Rings with Top Light Bar (frame_11) */}
             <div className="lg:col-span-6 relative flex flex-col items-center justify-center py-6">
-              {/* Top Glowing Purple Light Bar */}
               <div
                 className="w-44 h-2.5 rounded-full bg-[#7c6aff] shadow-[0_14px_55px_16px_rgba(104,84,252,0.85)] mb-6"
                 aria-hidden="true"
               />
 
-              {/* Concentric Orbit Circles */}
               <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
-                {/* Outer Ring */}
                 <div className="absolute inset-2 rounded-full border border-[#6854fc]/35 bg-[radial-gradient(circle_at_50%_20%,rgba(104,84,252,0.22),transparent_70%)]" />
-                {/* Middle Ring */}
                 <div className="absolute inset-14 rounded-full border border-[#6854fc]/45 bg-[radial-gradient(circle_at_50%_50%,rgba(104,84,252,0.18),transparent_75%)]" />
-                {/* Center Hub */}
                 <div className="relative z-10 w-24 h-24 rounded-full border-2 border-[#6854fc] bg-[#0b0426] shadow-[0_0_40px_rgba(104,84,252,0.6)] flex items-center justify-center p-3">
                   <div className="bg-white p-2 rounded-xl">
                     <img
-                      src={siteConfig.logoPath}
-                      alt={siteConfig.businessName}
+                      src={siteSettings.logoPath}
+                      alt={siteSettings.businessName}
                       className="w-full h-auto object-contain"
                     />
                   </div>
                 </div>
 
-                {/* Orbiting Category Icon Nodes */}
                 <Link
                   to="/catalogue?category=Sound%20Systems"
                   title="Sound Systems"
@@ -900,7 +630,6 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: "Integrations" style Copy + Checkmarks + Solid Pill Button (frame_12) */}
             <div className="lg:col-span-6 space-y-6">
               <div>
                 <span className="intellio-pill-badge">Complete AV Ecosystem</span>
@@ -914,7 +643,7 @@ export const HomePage: React.FC = () => {
               </h2>
 
               <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
-                LIVEON CONNECT brings together 9 specialized equipment categories—from 500W portable speakers and P2 fine-pitch LED walls to JBL VRX &amp; RCF 9007-AS line arrays, Avolites consoles, and CPCB IV+ diesel genset power.
+                {siteSettings.businessName} brings together 9 specialized equipment categories—from 500W portable speakers and P2 fine-pitch LED walls to JBL VRX &amp; RCF 9007-AS line arrays, Avolites consoles, and CPCB IV+ diesel genset power.
               </p>
 
               <ul className="space-y-3.5 pt-1">
@@ -943,12 +672,11 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          7. WHY CHOOSE US & 2x2 BENTO GRID — Exact match to frame_13 & frame_14
+          7. WHY CHOOSE US & 2x2 BENTO GRID
          ===================================================================== */}
       <section className="py-16 sm:py-24 bg-[#060216] border-t border-[#6854fc]/20" id="why">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Column: "Smarter Tasks" style Copy + Icon Rows + Solid Pill Button (frame_13) */}
             <div className="lg:col-span-6 space-y-6">
               <div>
                 <span className="intellio-pill-badge">Why Choose Us</span>
@@ -997,11 +725,9 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: Framed 2x2 Bento Container (Exact visual match to frame_14) */}
             <div className="lg:col-span-6">
               <div className="rounded-[28px] border border-[#6854fc]/50 bg-[#0b0524] p-4 sm:p-6 shadow-2xl">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Top-Left Card: Pastel Mint-to-Ice Card (matching frame_14 top-left) */}
                   <div className="rounded-[22px] p-5 bg-gradient-to-br from-[#99f6e4] via-[#e0f2fe] to-[#ddd6fe] text-slate-900 flex flex-col justify-between min-h-[215px]">
                     <div className="flex items-start justify-between">
                       <span className="text-sm font-semibold text-slate-800 leading-snug">
@@ -1023,7 +749,6 @@ export const HomePage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Top-Right Card: Solid #6854fc Card with Real Live Streaming Rig Photo */}
                   <div className="rounded-[22px] p-5 bg-[#6854fc] text-white flex flex-col justify-between min-h-[215px] relative overflow-hidden">
                     <div className="flex items-center gap-3 relative z-10">
                       <div className="w-10 h-10 rounded-xl bg-white text-[#6854fc] flex items-center justify-center shrink-0">
@@ -1047,7 +772,6 @@ export const HomePage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Bottom-Left Card: Dark Glow Card with Circular Checkmark (matching frame_14 bottom-left) */}
                   <div className="rounded-[22px] p-6 bg-[#130b36] border border-[#6854fc]/35 flex flex-col items-center justify-center text-center min-h-[215px]">
                     <div className="w-14 h-14 rounded-full bg-[#6854fc] text-white flex items-center justify-center shadow-[0_0_30px_rgba(104,84,252,0.75)] mb-4">
                       <Check className="w-7 h-7 stroke-[3]" />
@@ -1060,7 +784,6 @@ export const HomePage: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Bottom-Right Card: Pastel Lavender-to-Peach Bar Chart Card (matching frame_14 bottom-right) */}
                   <div className="rounded-[22px] p-5 bg-gradient-to-br from-[#e0e7ff] via-[#f3e8ff] to-[#fce7f3] text-slate-900 flex flex-col justify-between min-h-[215px]">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold text-slate-900">
@@ -1070,7 +793,7 @@ export const HomePage: React.FC = () => {
                         WhatsApp
                       </span>
                     </div>
-                    <div className="text-sm font-bold text-slate-900">+52 Items</div>
+                    <div className="text-sm font-bold text-slate-900">+{products.length} Items</div>
                     <div className="flex items-end justify-between gap-2 pt-2 px-1">
                       {HOW_IT_WORKS_STEPS.map((st, idx) => (
                         <div key={st.number} className="flex flex-col items-center gap-1.5 flex-1">
@@ -1087,7 +810,6 @@ export const HomePage: React.FC = () => {
             </div>
           </div>
 
-          {/* 4-Step Process Detail Row */}
           <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {HOW_IT_WORKS_STEPS.map((step) => (
               <div
@@ -1110,99 +832,95 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* =====================================================================
-          8. CURVED HORIZON ARC & ABOUT / TESTIMONIAL CARD — Exact match to frame_17 & 18
+          8. CURVED HORIZON ARC & ABOUT / TESTIMONIAL CARD
          ===================================================================== */}
-      <section className="py-16 sm:py-24 bg-[#060216] relative overflow-hidden" id="about">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Glowing Purple Curved Horizon Arc above Pill Badge (frame_17) */}
-          <div className="relative pt-14 text-center space-y-4 mb-12">
-            <div
-              className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[340px] sm:w-[540px] h-44 rounded-t-full border-t-[3px] border-[#6854fc] shadow-[0_-18px_45px_rgba(104,84,252,0.35)]"
-              aria-hidden="true"
-            />
-            <div className="relative z-10">
-              <span className="intellio-pill-badge">About {siteConfig.businessName}</span>
-            </div>
-            <h2
-              className="relative z-10 font-display text-3xl sm:text-5xl font-bold text-white"
-              style={{ textWrap: 'balance' }}
-            >
-              Your AV Partner for Memorable Events Across Kerala
-            </h2>
-          </div>
-
-          {/* Large Rounded Intellio Quote / Story Card (Exact match to frame_18) */}
-          <div className="intellio-card rounded-[32px] p-7 sm:p-12 space-y-6">
-            {/* Giant Periwinkle Quotation Mark */}
-            <div className="font-display text-7xl sm:text-8xl font-bold text-[#6854fc] leading-none select-none">
-              &ldquo;
-            </div>
-
-            <p className="text-lg sm:text-2xl text-slate-100 leading-relaxed font-medium">
-              &ldquo;{currentStory.quote}&rdquo;
-            </p>
-
-            {/* 5 Gold Stars (frame_18) */}
-            <div className="flex items-center gap-1.5 text-amber-400">
-              <Star className="w-5 h-5 fill-amber-400" />
-              <Star className="w-5 h-5 fill-amber-400" />
-              <Star className="w-5 h-5 fill-amber-400" />
-              <Star className="w-5 h-5 fill-amber-400" />
-              <Star className="w-5 h-5 fill-amber-400" />
-            </div>
-
-            {/* Author / Company Profile Lockup */}
-            <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-full border-2 border-[#6854fc] overflow-hidden shrink-0 bg-[#08031d]">
-                  <img
-                    src={currentStory.photo}
-                    alt={currentStory.author}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <div className="font-display text-2xl font-bold text-white">
-                    {currentStory.author}
-                  </div>
-                  <div className="text-sm text-slate-300">{currentStory.role}</div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3">
-                <Link
-                  to="/about"
-                  className="px-6 py-3 intellio-outline-btn text-sm whitespace-nowrap"
-                >
-                  Read Full FAQ →
-                </Link>
-                <a
-                  href={`tel:${siteConfig.phoneDial}`}
-                  className="px-6 py-3 intellio-solid-btn text-sm flex items-center gap-2 whitespace-nowrap"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Call {siteConfig.phone}</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Interactive Pagination Dots (matching bottom of frame_18) */}
-          <div className="mt-8 flex items-center justify-center gap-3">
-            {HIGHLIGHT_STORIES.map((story, index) => (
-              <button
-                key={story.author}
-                type="button"
-                onClick={() => setActiveStoryIndex(index)}
-                aria-label={`Show highlight ${index + 1}`}
-                className={`w-4 h-4 rounded-full border border-[#6854fc] transition-colors cursor-pointer ${
-                  activeStoryIndex === index ? 'bg-[#6854fc]' : 'bg-transparent hover:bg-[#6854fc]/40'
-                }`}
+      {currentStory && (
+        <section className="py-16 sm:py-24 bg-[#060216] relative overflow-hidden" id="about">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative pt-14 text-center space-y-4 mb-12">
+              <div
+                className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[340px] sm:w-[540px] h-44 rounded-t-full border-t-[3px] border-[#6854fc] shadow-[0_-18px_45px_rgba(104,84,252,0.35)]"
+                aria-hidden="true"
               />
-            ))}
+              <div className="relative z-10">
+                <span className="intellio-pill-badge">About {siteSettings.businessName}</span>
+              </div>
+              <h2
+                className="relative z-10 font-display text-3xl sm:text-5xl font-bold text-white"
+                style={{ textWrap: 'balance' }}
+              >
+                Your AV Partner for Memorable Events Across Kerala
+              </h2>
+            </div>
+
+            <div className="intellio-card rounded-[32px] p-7 sm:p-12 space-y-6">
+              <div className="font-display text-7xl sm:text-8xl font-bold text-[#6854fc] leading-none select-none">
+                &ldquo;
+              </div>
+
+              <p className="text-lg sm:text-2xl text-slate-100 leading-relaxed font-medium">
+                &ldquo;{currentStory.quote}&rdquo;
+              </p>
+
+              <div className="flex items-center gap-1.5 text-amber-400">
+                <Star className="w-5 h-5 fill-amber-400" />
+                <Star className="w-5 h-5 fill-amber-400" />
+                <Star className="w-5 h-5 fill-amber-400" />
+                <Star className="w-5 h-5 fill-amber-400" />
+                <Star className="w-5 h-5 fill-amber-400" />
+              </div>
+
+              <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-full border-2 border-[#6854fc] overflow-hidden shrink-0 bg-[#08031d]">
+                    <img
+                      src={currentStory.photo}
+                      alt={currentStory.author}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-display text-2xl font-bold text-white">
+                      {currentStory.author}
+                    </div>
+                    <div className="text-sm text-slate-300">{currentStory.role}</div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3">
+                  <Link
+                    to="/about"
+                    className="px-6 py-3 intellio-outline-btn text-sm whitespace-nowrap"
+                  >
+                    Read Full FAQ →
+                  </Link>
+                  <a
+                    href={`tel:${dialPhone}`}
+                    className="px-6 py-3 intellio-solid-btn text-sm flex items-center gap-2 whitespace-nowrap"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span>Call {siteSettings.phone}</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 flex items-center justify-center gap-3">
+              {highlightStories.map((story, index) => (
+                <button
+                  key={story.id}
+                  type="button"
+                  onClick={() => setActiveStoryIndex(index)}
+                  aria-label={`Show highlight ${index + 1}`}
+                  className={`w-4 h-4 rounded-full border border-[#6854fc] transition-colors cursor-pointer ${
+                    activeStoryIndex === index ? 'bg-[#6854fc]' : 'bg-transparent hover:bg-[#6854fc]/40'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 };

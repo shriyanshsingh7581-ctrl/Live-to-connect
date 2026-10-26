@@ -40,6 +40,7 @@ export const QuotePage: React.FC = () => {
     cartTotals,
     buildWhatsAppQuoteMessage,
     getWhatsAppQuoteUrl,
+    logQuoteEnquiry,
   } = useQuote();
 
   const [confirmClear, setConfirmClear] = useState(false);
@@ -68,6 +69,23 @@ export const QuotePage: React.FC = () => {
       return;
     }
     setValidationError(null);
+    const estCost =
+      cartItems.length === 0
+        ? '₹0'
+        : cartTotals.minTotal === cartTotals.maxTotal
+        ? formatINR(cartTotals.minTotal)
+        : `${formatINR(cartTotals.minTotal)} – ${formatINR(cartTotals.maxTotal)}`;
+
+    logQuoteEnquiry({
+      customerName: eventDetails.customerName.trim(),
+      customerPhone: eventDetails.customerPhone.trim(),
+      customerEmail: eventDetails.customerEmail.trim(),
+      eventType: eventDetails.eventType,
+      eventDate: `${eventDetails.eventDate || 'TBC'} (${eventDetails.rentalDays} day(s))`,
+      venue: eventDetails.venue.trim(),
+      equipmentSummary: buildWhatsAppQuoteMessage(),
+      estimatedTotal: estCost,
+    });
   };
 
   return (

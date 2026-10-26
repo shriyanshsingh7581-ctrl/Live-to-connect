@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Search, ShoppingBag, Menu, X, MessageCircle, ArrowRight } from 'lucide-react';
-import { siteConfig, getWhatsAppUrl } from '../config/site';
+import { Search, ShoppingBag, Menu, X, MessageCircle, ArrowRight, Settings } from 'lucide-react';
 import { useQuote } from '../context/QuoteContext';
 
 export const Header: React.FC = () => {
-  const { totalItemCount, setIsQuoteDrawerOpen } = useQuote();
+  const { totalItemCount, setIsQuoteDrawerOpen, siteSettings, products } = useQuote();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [quickSearchOpen, setQuickSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
+  const whatsappUrl = `https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(
+    `Hello ${siteSettings.businessName}, I would like to enquire about audio-visual equipment rentals for an upcoming event.`
+  )}`;
 
   const handleQuickSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,22 +40,22 @@ export const Header: React.FC = () => {
         <Link
           to="/"
           className="flex items-center gap-3 shrink-0 focus:outline-none"
-          aria-label={`${siteConfig.businessName} Home`}
+          aria-label={`${siteSettings.businessName} Home`}
         >
           <div className="bg-white px-2.5 py-1.5 rounded-xl shadow-xs shrink-0">
             <img
-              src={siteConfig.logoPath}
-              alt={siteConfig.businessName}
+              src={siteSettings.logoPath}
+              alt={siteSettings.businessName}
               className="h-9 sm:h-10 w-auto object-contain"
             />
           </div>
           <span className="font-display text-2xl sm:text-[26px] font-bold tracking-tight text-white whitespace-nowrap">
-            LIVEON <span className="text-[#6854fc]">CONNECT</span>
+            {siteSettings.businessName}
           </span>
         </Link>
 
         {/* Zone 2: Primary Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-7" aria-label="Main Navigation">
+        <nav className="hidden lg:flex items-center gap-6" aria-label="Main Navigation">
           <NavLink to="/" end className={navLinkClass}>
             Home
           </NavLink>
@@ -70,6 +73,19 @@ export const Header: React.FC = () => {
           </NavLink>
           <NavLink to="/contact" className={navLinkClass}>
             Contact
+          </NavLink>
+          <NavLink
+            to="/admin"
+            className={({ isActive }) =>
+              `px-3.5 py-1.5 rounded-full border text-xs font-bold flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 ${
+                isActive
+                  ? 'bg-[#6854fc] border-[#6854fc] text-white'
+                  : 'bg-[#6854fc]/15 border-[#6854fc]/50 text-[#a594ff] hover:bg-[#6854fc] hover:text-white'
+              }`
+            }
+          >
+            <Settings className="w-3.5 h-3.5" />
+            <span>Admin Panel</span>
           </NavLink>
         </nav>
 
@@ -99,7 +115,7 @@ export const Header: React.FC = () => {
           </button>
 
           <a
-            href={getWhatsAppUrl()}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 intellio-solid-btn text-sm whitespace-nowrap shrink-0"
@@ -108,7 +124,7 @@ export const Header: React.FC = () => {
             <ArrowRight className="w-4 h-4" />
           </a>
 
-          {/* Mobile 3-Bar Hamburger Trigger (matching frame_01) */}
+          {/* Mobile 3-Bar Hamburger Trigger */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
@@ -172,7 +188,7 @@ export const Header: React.FC = () => {
               onClick={() => setMobileMenuOpen(false)}
               className="px-4 py-3 rounded-2xl text-base font-display font-bold text-white hover:bg-[#6854fc]/20"
             >
-              Equipment Catalogue (52 Products)
+              Equipment Catalogue ({products.length} Products)
             </NavLink>
             <Link
               to="/catalogue#categories"
@@ -205,17 +221,25 @@ export const Header: React.FC = () => {
             >
               Contact
             </NavLink>
+            <NavLink
+              to="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-4 py-3 rounded-2xl text-base font-display font-bold text-[#a594ff] bg-[#6854fc]/15 hover:bg-[#6854fc]/30 flex items-center gap-2"
+            >
+              <Settings className="w-4 h-4" />
+              <span>Admin Control Panel (A to Z)</span>
+            </NavLink>
           </nav>
 
           <div className="pt-3 border-t border-[#6854fc]/25 flex flex-col sm:flex-row gap-2.5">
             <a
-              href={getWhatsAppUrl()}
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full py-3.5 px-5 intellio-solid-btn text-base flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp {siteConfig.whatsappDisplay}</span>
+              <span>WhatsApp {siteSettings.phone}</span>
             </a>
           </div>
         </div>

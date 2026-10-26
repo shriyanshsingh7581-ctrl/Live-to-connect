@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Phone, Mail, MapPin, Instagram, MessageCircle, Info, CheckCircle2 } from 'lucide-react';
 import { siteConfig, getWhatsAppUrl } from '../config/site';
+import { useQuote } from '../context/QuoteContext';
 
 interface ContactFormState {
   name: string;
@@ -25,6 +26,7 @@ const INITIAL_FORM: ContactFormState = {
 };
 
 export const ContactPage: React.FC = () => {
+  const { siteSettings, logQuoteEnquiry } = useQuote();
   const [form, setForm] = useState<ContactFormState>(INITIAL_FORM);
   const [errors, setErrors] = useState<Partial<Record<keyof ContactFormState, string>>>({});
   const [submittedWhatsAppUrl, setSubmittedWhatsAppUrl] = useState<string | null>(null);
@@ -49,12 +51,12 @@ export const ContactPage: React.FC = () => {
     return Object.keys(nextErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
 
     const message = [
-      `Hello ${siteConfig.businessName},`,
+      `Hello ${siteSettings.businessName},`,
       '',
       'I would like to enquire about audio-visual equipment rentals.',
       '',
@@ -74,7 +76,20 @@ export const ContactPage: React.FC = () => {
       'Thank you.',
     ].join('\n');
 
-    const waUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    await logQuoteEnquiry({
+      customerName: form.name.trim(),
+      customerPhone: form.phone.trim(),
+      customerEmail: form.email.trim(),
+      eventType: form.eventType,
+      eventDate: form.eventDate,
+      venue: form.venue.trim(),
+      equipmentSummary: `${form.requiredEquipment.trim()}${
+        form.additionalRequirements.trim() ? `\nNotes: ${form.additionalRequirements.trim()}` : ''
+      }`,
+      estimatedTotal: 'Contact Enquiry (To Be Confirmed)',
+    });
+
+    const waUrl = `https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(message)}`;
     setSubmittedWhatsAppUrl(waUrl);
   };
 

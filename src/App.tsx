@@ -15,6 +15,7 @@ import { QuotePage } from './pages/QuotePage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { PrivacyPolicyPage, TermsAndConditionsPage } from './pages/LegalPages';
+import { AdminPage } from './pages/AdminPage';
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -47,6 +48,7 @@ export default function App() {
               <Route path="/quote" element={<QuotePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/admin" element={<AdminPage />} />
               <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
               <Route path="*" element={<HomePage />} />

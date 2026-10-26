@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Instagram, ArrowRight, Send, ChevronUp } from 'lucide-react';
-import { siteConfig, getWhatsAppUrl } from '../config/site';
+import { Phone, Mail, MapPin, Instagram, ArrowRight, Send, ChevronUp, Settings } from 'lucide-react';
 import { PRODUCT_CATEGORIES } from '../data/products';
+import { useQuote } from '../context/QuoteContext';
 
 export const Footer: React.FC = () => {
+  const { siteSettings } = useQuote();
   const currentYear = new Date().getFullYear();
   const [quickMessage, setQuickMessage] = useState('');
 
   const handleQuickEnquirySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const text = quickMessage.trim()
-      ? `Hello ${siteConfig.businessName}, I would like to enquire about: ${quickMessage.trim()}`
-      : undefined;
-    window.open(getWhatsAppUrl(text), '_blank', 'noopener,noreferrer');
+      ? `Hello ${siteSettings.businessName}, I would like to enquire about: ${quickMessage.trim()}`
+      : `Hello ${siteSettings.businessName}, I would like to enquire about audio-visual equipment rentals for an upcoming event.`;
+    const url = `https://wa.me/${siteSettings.whatsappNumber}?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
     setQuickMessage('');
   };
 
@@ -21,22 +23,24 @@ export const Footer: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const dialPhone = siteSettings.phone.replace(/[^0-9+]/g, '');
+
   return (
     <footer className="relative intellio-footer-glow text-slate-300 border-t border-[#6854fc]/30 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
-          {/* Column 1: Intellio Top Brand + "Stay Update with our Latest Offerings" + Request Demo Pill Button (frame_19) */}
+          {/* Column 1: Intellio Top Brand + Request Quote Pill Button */}
           <div className="lg:col-span-4 space-y-6">
             <Link to="/" className="inline-flex items-center gap-3">
               <div className="bg-white px-3 py-1.5 rounded-xl shadow-md">
                 <img
-                  src={siteConfig.logoPath}
-                  alt={siteConfig.businessName}
+                  src={siteSettings.logoPath}
+                  alt={siteSettings.businessName}
                   className="h-10 w-auto object-contain"
                 />
               </div>
               <span className="font-display text-3xl font-bold text-white tracking-tight">
-                LIVEON <span className="text-[#6854fc]">CONNECT</span>
+                {siteSettings.businessName}
               </span>
             </Link>
 
@@ -45,7 +49,7 @@ export const Footer: React.FC = () => {
             </h2>
 
             <p className="text-sm text-slate-300 leading-relaxed max-w-sm">
-              {siteConfig.tagline} — Complete audio-visual rental solutions in {siteConfig.address.full}.
+              {siteSettings.tagline} — Complete audio-visual rental solutions in {siteSettings.addressFull}.
             </p>
 
             <div className="pt-1 flex flex-wrap items-center gap-3">
@@ -57,7 +61,7 @@ export const Footer: React.FC = () => {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
-                href={siteConfig.instagramUrl}
+                href={siteSettings.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-3.5 rounded-full border border-[#6854fc]/50 bg-[#08031d]/80 hover:bg-[#6854fc]/20 text-xs font-semibold text-white transition-colors"
@@ -68,7 +72,7 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Column 2: Products / Equipment Categories (frame_19) */}
+          {/* Column 2: Products / Equipment Categories */}
           <div className="lg:col-span-3 space-y-4">
             <h3 className="font-display text-2xl font-bold text-white">
               Products
@@ -87,7 +91,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 3: Utility / Quick Links (frame_19 & frame_20) */}
+          {/* Column 3: Utility / Quick Links */}
           <div className="lg:col-span-2 space-y-4">
             <h3 className="font-display text-2xl font-bold text-white">
               Utility
@@ -119,6 +123,15 @@ export const Footer: React.FC = () => {
                 </Link>
               </li>
               <li>
+                <Link
+                  to="/admin"
+                  className="text-[#a594ff] hover:text-white font-semibold inline-flex items-center gap-1.5 transition-colors"
+                >
+                  <Settings className="w-4 h-4" />
+                  <span>Admin Panel</span>
+                </Link>
+              </li>
+              <li>
                 <Link to="/privacy-policy" className="hover:text-[#6854fc] transition-colors">
                   Privacy Policy
                 </Link>
@@ -131,7 +144,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 4: Intellio Corner-Bracket Newsletter / Quick WhatsApp Box (Exact match to frame_20) */}
+          {/* Column 4: Intellio Corner-Bracket Quick WhatsApp Box */}
           <div className="lg:col-span-3 space-y-5">
             <h3 className="font-display text-2xl sm:text-3xl font-bold text-white text-center lg:text-left">
               Quick Enquiry
@@ -139,22 +152,18 @@ export const Footer: React.FC = () => {
 
             {/* Corner-Bracket Framed Box */}
             <div className="relative p-6 sm:p-7 bg-[#090420]/70">
-              {/* Top-Left Bracket */}
               <span
                 className="pointer-events-none absolute top-0 left-0 w-12 h-12 border-t border-l border-[#6854fc]/60"
                 aria-hidden="true"
               />
-              {/* Top-Right Bracket */}
               <span
                 className="pointer-events-none absolute top-0 right-0 w-12 h-12 border-t border-r border-[#6854fc]/60"
                 aria-hidden="true"
               />
-              {/* Bottom-Left Bracket */}
               <span
                 className="pointer-events-none absolute bottom-0 left-0 w-12 h-12 border-b border-l border-[#6854fc]/60"
                 aria-hidden="true"
               />
-              {/* Bottom-Right Bracket */}
               <span
                 className="pointer-events-none absolute bottom-0 right-0 w-12 h-12 border-b border-r border-[#6854fc]/60"
                 aria-hidden="true"
@@ -186,36 +195,36 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2.5 text-xs text-slate-300 pt-2">
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-[#6854fc] shrink-0 mt-0.5" />
-                <span>{siteConfig.address.full}</span>
+                <span>{siteSettings.addressFull}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-[#6854fc] shrink-0" />
-                <a href={`tel:${siteConfig.phoneDial}`} className="hover:text-white font-mono-tabular">
-                  {siteConfig.phone}
+                <a href={`tel:${dialPhone}`} className="hover:text-white font-mono-tabular">
+                  {siteSettings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-[#6854fc] shrink-0" />
-                <a href={`mailto:${siteConfig.email}`} className="hover:text-white break-all">
-                  {siteConfig.email}
+                <a href={`mailto:${siteSettings.email}`} className="hover:text-white break-all">
+                  {siteSettings.email}
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Copyright Line (Exact match to frame_20) */}
+        {/* Bottom Copyright Line */}
         <div className="mt-12 pt-8 border-t border-white/10 text-center space-y-2">
           <p className="font-display text-base sm:text-lg font-semibold text-white">
-            &copy; {currentYear} Copyright Reserved by {siteConfig.businessName}
+            &copy; {currentYear} Copyright Reserved by {siteSettings.businessName}
           </p>
           <p className="text-xs text-slate-400 max-w-2xl mx-auto">
-            Displayed rental rates are indicative reference figures. Final availability, transportation, setup, and quotation require confirmation from {siteConfig.businessName}.
+            Displayed rental rates are indicative reference figures. Final availability, transportation, setup, and quotation require confirmation from {siteSettings.businessName}.
           </p>
         </div>
       </div>
 
-      {/* Floating Bottom-Right Periwinkle Scroll-To-Top Button (visible across all video frames) */}
+      {/* Floating Bottom-Right Periwinkle Scroll-To-Top Button */}
       <button
         type="button"
         onClick={scrollToTop}
